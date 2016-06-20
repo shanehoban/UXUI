@@ -202,26 +202,25 @@ var menuAPI = (function(){
 			var thisElement = $(this);
 			var menuItems = $('.menu-item');
 			closeSubMenus(menuItems);
-			e.stopPropagation();	
 			thisElement.addClass('shown');
-			thisElement.off('click');
-			// Assign Global ITEM
-			var item = $(this).find('.menu-item-title');
-			ITEM = findMenuItem($(item).attr('data-title'));
-			thisElement.find('.item-sub-menu').slideDown('fast');
-
+			openSubMenu(thisElement);
 			$('.shown .hide-sub-menu-btn').on('click', function(e){
 				closeSubMenus(menuItems);
-				setupMenuListeners();
 				e.stopPropagation();
 			})
 		});
 	};
 
+	var openSubMenu = function(element){
+		// Assign Global ITEM
+		var item = element.find('.menu-item-title');
+		ITEM = findMenuItem($(item).attr('data-title'));
+		element.find('.item-sub-menu').slideDown('fast');
+	}
+
 	var closeSubMenus = function(element){
-		hideSubmenus(true);
+		hideSubmenus();
 		element.removeClass('shown');
-		element.off('click');
 	}
 
 	var getMenu = function(){
