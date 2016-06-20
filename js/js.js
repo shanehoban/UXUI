@@ -222,19 +222,3 @@ var populateMenu = function(menu){
 	setupMenuListeners();
 }
 
-var getLocation = function(){
-	var url = window.location.href;
-    var regex = new RegExp("[?&]loc(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    var location = decodeURIComponent(results[2].replace(/\+/g, " "));
-    $(".location").html(location);
-    $(".change-location").prop("href", "index.html");
-    console.log("Location", location);
-}
-
-$(document).ready(function(){
-	getLocation();
-});
-
