@@ -20,6 +20,13 @@ app.use(function(req, res, next) {
 // })
 
 
+app.get('/menus', function (req, res) {
+	console.log( req );
+   fs.readFile( "../data/resteraunts.json", 'utf8', function (err, data) {
+	   	res.end( data );
+   });
+});
+
 app.get('/menus/:name', function (req, res) {
 	console.log( req );
    fs.readFile( "../data/" + req.params.name, 'utf8', function (err, data) {
