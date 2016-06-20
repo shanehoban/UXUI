@@ -8,7 +8,6 @@ var resterauntLocation;
 
 var locationAPI = (function(){
 	var populateLocations = function(locations){
-		console.log('Locations', locations);
 		var locationHTML = '';
 		for(var i = 0; i < locations.length; i++){
 			locationHTML += '<li><a class="block-link" onclick="setLocation(\''+locations[i]+'\')">';
@@ -27,7 +26,6 @@ var locationAPI = (function(){
 			fetch(API_URL + 'menus').then(function(data){
 				return data.json();
 			}).then(function(data){
-				console.log(data);
 				populateLocations(data.locations);
 			});
 		} else {
@@ -36,7 +34,6 @@ var locationAPI = (function(){
 				url: API_URL + 'menus',
 				method: 'GET',
 				success: function(data){
-					data = JSON.parse(data);
 					populateLocations(data.locations);
 				},
 				error: function(err){
@@ -68,7 +65,6 @@ var locationAPI = (function(){
 
 
 var setLocation = function(locationValue){
-	console.log('Location Value', locationValue);
 	resterauntLocation = locationValue;
 	locationAPI.hideLocations();
 	$('.location-name').html(resterauntLocation);
