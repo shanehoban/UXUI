@@ -199,30 +199,28 @@ var menuAPI = (function(){
 
 	var setupMenuListeners = function(){
 		$('.menu-item').on('click', function(e){
-			closeSubMenus();
+			var thisElement = $(this);
+			closeSubMenus(thisElement);
 			e.stopPropagation();	
-			$(this).addClass('shown');
-
+			thisElement.addClass('shown');
+			thisElement.off('click');
 			// Assign Global ITEM
 			var item = $(this).find('.menu-item-title');
 			ITEM = findMenuItem($(item).attr('data-title'));
-			$(this).find('.item-sub-menu').slideDown('fast');
+			thisElement.find('.item-sub-menu').slideDown('fast');
 
 			$('.shown .hide-sub-menu-btn').on('click', function(e){
-				closeSubMenus();
+				closeSubMenus(thisElement);
+				setupMenuListeners();
 				e.stopPropagation();
 			})
 		});
 	};
 
-	var closeSubMenus = function(){
+	var closeSubMenus = function(element){
 		hideSubmenus(true);
-		var shownElements = $('shown');
-		for(var index = 0;index< shownElements.length;index++)
-		{
-			shownElements[index].removeClass('shown');
-		}
-		console.log('Shown', shownElements);
+		element.removeClass('shown');
+		element.off('click');
 	}
 
 	var getMenu = function(){
