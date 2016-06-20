@@ -1,12 +1,77 @@
-	
+	*{
+		margin: 0;
+		padding: 0;
+	}
+
 	body{
 		font-family: arial;
 		font-size: 14px;
+		background: url('../img/landing.png');
+		background-attachment: fixed;
+		background-size: cover;
 	}
 
 	.container{
 		display: flex;
 		flex-direction: row;
+	}
+
+	header{
+		padding: 15px 20px;
+		border-bottom: 1px solid gray;
+		background: white;
+		z-index: 1;
+	}
+
+	.content {
+	    background: linear-gradient(to bottom,#000 0,rgba(255,255,255,0) 250px,rgba(255,255,255,0) 100%);
+	    display: block;
+	    min-height: 150px;
+	    width: 100%;
+	}
+
+
+	.splash-header{
+		    color: rgba(255, 255, 255, 0.92);
+		    text-align: center;
+		    font-size: 29px;
+		    text-shadow: -1px 1px 0 rgba(0, 0, 0, 0.75);
+		    margin: 50px 0;
+	}
+
+	.loc-list {
+	    width: 70%;
+	    padding: 20px;
+	    background: rgba(255, 255, 255, 0.86);
+	    border-radius: 15px;
+	    margin: 0 auto;
+	}
+
+	.location-list{
+		list-style: none;
+		font-size: 16px;
+		font-weight: bold;
+
+		& li{
+			padding: 5px 0;
+			margin: 5px 0;
+			border-bottom: 1px dotted gray;
+
+			&:last-of-type{
+				border-bottom: 0;
+			}
+		}
+
+		& a{
+			color: red;
+		}
+
+		& .fa{
+			font-weight: normal;
+			float: right;
+			opacity: 0.5;
+			margin-right: 5px;
+		}
 	}
 
 	.row{
