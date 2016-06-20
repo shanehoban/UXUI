@@ -22,7 +22,7 @@ app.use(function(req, res, next) {
 
 app.get('/menus/:name', function (req, res) {
 	console.log( req );
-   fs.readFile( "../" + req.params.name, 'utf8', function (err, data) {
+   fs.readFile( "../data/" + req.params.name, 'utf8', function (err, data) {
 	   	res.end( data );
    });
 });
