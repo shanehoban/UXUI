@@ -128,14 +128,12 @@ var populateMenu = function(menu){
 var populateLocations = function(locations){
 	console.log('Locations', locations);
 	var locationHTML = '';
-	locationHTML += '<div class="locations">';
 	for(var i = 0; i < locations.length; i++){
-		locationHTML += '<div class="location">';
+		locationHTML += '<li><a data-loc="">';
 		locationHTML += locations[i];
-		locationHTML += '</div>';
+		locationHTML += '</a><i class="fa fa-chevron-right"></i></li>';
 	}
-	locationHTML += '</div>'; // closes locations
-	$('.location-menu').html(locationHTML);
+	$('.location-list').html(locationHTML);
 };
 
 var getResterauntList = function(){
@@ -143,6 +141,7 @@ var getResterauntList = function(){
 		fetch(API_URL + 'menus').then(function(data){
 			return data.json();
 		}).then(function(data){
+			console.log(data);
 			populateLocations(data.locations);
 		});
 	} else {
