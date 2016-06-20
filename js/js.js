@@ -30,52 +30,66 @@ var displayOrder = function(){
 	var orderHTML = '';
 	var orderTotal = 0;
 	console.log(ORDER);
-
-	if(ORDER && ORDER.length > 0){
-		$('.order-buttons').fadeIn('fast');
-	} else {
-		$('.order-buttons').hide();
-	}
-
-	for(var i=0; i < ORDER.length; i++){
-		var item = ORDER[i];
-		orderTotal += item.Price;
-		orderHTML += '<div class="order-details-list">';
-		orderHTML += '<div class="order-detail-title">';
-		orderHTML += item.Title;
-		orderHTML += ' <span class="order-price">&pound;' + (item.Price).toFixed(2) + '</span>';
-		orderHTML += '</div>';
-		orderHTML += '</div>';
-	}
-
-	orderHTML += '<div class="order-total">Total: <span class="order-price">&pound;' + (orderTotal).toFixed(2) + '</span></div>';
-
-	$('.order-details').html(orderHTML);
-	$('.order-details').scrollTop($('.order-details')[0].scrollHeight);
 };
 
-var displayMenuItem = function(item){
-$('.order-panel').fadeIn('fast').css('display', 'inline');
-$('.item-title').html(item.Title);
-$('.item-desc').html(item.Description);
-$('.item-price').html('&pound;' + (item.Price).toFixed(2));
-
-	//TO:DO variations
-	$('.item-variations').html();
-
-	displayOrder();
+var hideSubmenus = function(){
+	// Hide all sub menus
+	$('.item-sub-menu').slideUp('fast');
 };
+
+
+var labelCount = 0;
+var addSubMenu = function(HTML){
+	HTML += '<div class="item-sub-menu">';
+		HTML += '<img class="sub-item-img" src="img/dish.png">';
+
+		HTML += '<div class="sub-item-meta">';
+			HTML += '<form class="sub-item-form">';
+			  HTML += '<input id="label' + (++labelCount) + '"" type="radio" checked name="side-dish" value="steamed-rice"> <label for="label' + labelCount + '">Steamed Rice<br>';
+			  HTML += '<input id="label' + (++labelCount) + '"" type="radio" name="side-dish" value="brown-rice"> <label for="label' + labelCount + '">Brown Rice</label><br>';
+			  HTML += '<input id="label' + (++labelCount) + '"" type="radio" name="side-dish" value="coconut-rice"> <label for="label' + labelCount + '">Coconut Rice</label><br>';
+			  HTML += '<input id="label' + (++labelCount) + '"" type="radio" name="side-dish" value="rice-noodles"> <label for="label' + labelCount + '">Rice Noodles</label><br>';
+			  HTML += '<input id="label' + (++labelCount) + '"" type="radio" name="side-dish" value="egg-noodles"> <label for="label' + labelCount + '">Egg Noodles</label><br>';
+			HTML += '</form>';
+		HTML += '</div>';
+
+		HTML += '<div class="sub-item-quantity">';
+
+			HTML += '<i class="fa fa-minus qty-btn"></i>';
+			HTML += '<input class="item-order-quantity" value="1" type="number" min="1">';
+			HTML += '<i class="fa fa-plus qty-btn"></i>';
+
+		HTML += '</div>';
+
+			HTML += '<button class="add-to-cart-btn">Add to Cart</button>';
+			HTML += '<span class="hide-sub-menu-btn">close</span>';
+
+	HTML += '</div>';
+
+	return HTML;
+};
+
 
 var setupMenuListeners = function(){
-	$('.menu-item-title').on('click', function(){
-		$('.menu-item-title').removeClass('active');
-		$(this).addClass('active');
+	$('.menu-item').on('click', function(e){
+		var closeClicked = e.target.classList.toString().indexOf('hide-sub-menu-btn') !== -1;
+		if($(this).hasClass('shown') && !closeClicked){
+			return;
+		} else {
+			hideSubmenus(closeClicked);
+			$('.menu-item').removeClass('shown');
+		}
+		$(this).addClass('shown');
 
-		// Global
-		ITEM = findMenuItem($(this).attr('data-title'));
-		displayMenuItem(ITEM);
+		// Assign Global ITEM
+		var item = $(this).find('.menu-item-title');
+		ITEM = findMenuItem($(item).attr('data-title'));
+
+		if(!closeClicked){
+			// if not clicked little close button
+			$(this).find('.item-sub-menu').slideDown('fast');
+		}	
 	});
-
 };
 
 
@@ -116,24 +130,35 @@ var populateMenu = function(menu){
 
 		menuHTML += '<div class="menu-category">';
 		menuHTML += '<div class="category-title">';
-		menuHTML += categoryTitle;
+			menuHTML += categoryTitle;
 		menuHTML += '</div>';
 
 		menuHTML += '<div class="menu-item-list">';
 		for(var x = 0; x < items.length; x++){
 			var item = items[x];
 			menuHTML += '<div class="menu-item">';
-			menuHTML += '<div class="menu-item-title" title="' + item.Description + '" data-title="' + item.Title + '">';
-			menuHTML += item.Title;
-			menuHTML += '</div>';
-			menuHTML += '</div>';
+				menuHTML += '<div class="menu-item-title" title="' + item.Description + '" data-title="' + item.Title + '">';
+					menuHTML += item.Title;
+				menuHTML += '</div>';
+
+				menuHTML += '<div class="menu-item-price">';
+					menuHTML += '&euro;' + (item.Price).toFixed(2);
+				menuHTML += '</div>';
+
+				menuHTML += '<div class="menu-item-description">';
+					menuHTML += item.Description;
+				menuHTML += '</div>';
+
+				menuHTML = addSubMenu(menuHTML);
+
+			menuHTML += '</div>'; // end .menu-item
 		}
 		menuHTML += '</div>';
 
 		menuHTML += '</div>'; // closes category
 	}
 
-	$('.rest-menu').html(menuHTML);
+	$('.menu-list').html(menuHTML);
 	setupMenuListeners();
 }
 
