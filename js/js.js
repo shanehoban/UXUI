@@ -105,6 +105,7 @@ var displayOrder = function(){
 
 
 var menuAPI = (function(){ 
+	var selected;
 	var populateMenu = function(menu){
 		MENU = menu;
 		var menuHTML = '';
@@ -198,24 +199,24 @@ var menuAPI = (function(){
 	};
 
 	var setupMenuListeners = function(){
-		$('.menu-item').on('click', function(e){
-			var thisElement = $(this);
-			var menuItems = $('.menu-item');
-			closeSubMenus(menuItems);
-			thisElement.addClass('shown');
-			openSubMenu(thisElement);
-			$('.shown .hide-sub-menu-btn').on('click', function(e){
-				closeSubMenus(menuItems);
-				e.stopPropagation();
-			})
-		});
+		$('.menu-item').on('click', openSubMenu);
 	};
 
-	var openSubMenu = function(element){
+	var openSubMenu = function(e){
 		// Assign Global ITEM
-		var item = element.find('.menu-item-title');
+		selected = $(this);
+		if(selected.hasClass('shown'))
+			return;
+		var menuItems = $('.menu-item');
+		closeSubMenus(menuItems);
+		selected.addClass('shown');
+		var item = selected.find('.menu-item-title');
 		ITEM = findMenuItem($(item).attr('data-title'));
-		element.find('.item-sub-menu').slideDown('fast');
+		selected.find('.item-sub-menu').slideDown('fast');
+		$('.shown .hide-sub-menu-btn').on('click', function(e){
+			closeSubMenus(menuItems);
+			e.stopPropagation();
+		});
 	}
 
 	var closeSubMenus = function(element){
