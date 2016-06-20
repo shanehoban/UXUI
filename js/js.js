@@ -1,10 +1,88 @@
-
-
 var API_URL = 'http://127.0.0.1:1337/';
+
 var ORDER = [];
 
 var MENU;
 var ITEM;
+var resterauntLocation;
+
+var locationAPI = (function(){
+	var populateLocations = function(locations){
+		var locationHTML = '';
+		for(var i = 0; i < locations.length; i++){
+			locationHTML += '<li><a class="block-link" onclick="setLocation(\''+locations[i]+'\')">';
+			locationHTML += locations[i];
+			locationHTML += '<i class="fa fa-chevron-right"></i></a></li>';
+		}
+		$('.location-list').html(locationHTML);
+	};
+
+	var clearLocations = function(){
+		$('.location-list').html('');
+	};
+
+	var getResterauntList = function(){
+		if(self.fetch){
+			fetch(API_URL + 'menus').then(function(data){
+				return data.json();
+			}).then(function(data){
+				populateLocations(data.locations);
+			});
+		} else {
+		// ajax fallback
+			$.ajax({
+				url: API_URL + 'menus',
+				method: 'GET',
+				success: function(data){
+					populateLocations(data.locations);
+				},
+				error: function(err){
+					console.log(err);
+				}
+			});
+		}
+	};
+
+	var hideLocations = function(){
+		$('.locations-row').hide();
+	}
+
+	var showLocations = function(){
+		$('.locations-row').show();
+	}
+
+	var activate = function(){
+		getResterauntList();
+	};
+
+	activate();
+
+	return {
+		hideLocations: hideLocations,
+		showLocations: showLocations
+	}
+})();
+
+
+var setLocation = function(locationValue){
+	resterauntLocation = locationValue;
+	locationAPI.hideLocations();
+	$('.location-name').html(resterauntLocation);
+	$('.location-name').prop("display","inline");
+	$('.change-location').prop("display","inline");
+	$('.location-name').show();
+	$('.change-location').show();
+	//do stuff for menu
+	return false;
+}
+
+var changeLocation = function(){
+	locationAPI.showLocations();
+	$('.location-name').hide();
+	$('.change-location').hide();
+	//do stuff for menu
+	return false;
+}
 
 var findMenuItem = function(title){
 	for(var i = 0; i < MENU.length; i++){
@@ -161,41 +239,4 @@ var populateMenu = function(menu){
 	$('.menu-list').html(menuHTML);
 	setupMenuListeners();
 }
-
-
-var populateLocations = function(locations){
-	console.log('Locations', locations);
-	var locationHTML = '';
-	for(var i = 0; i < locations.length; i++){
-		locationHTML += '<li><a class="block-link" href="menu.html?loc=' + encodeURI(locations[i]) + '">';
-		locationHTML += locations[i];
-		locationHTML += '<i class="fa fa-chevron-right"></i></a></li>';
-	}
-	$('.location-list').html(locationHTML);
-};
-
-var getResterauntList = function(){
-	if(self.fetch){
-		fetch(API_URL + 'menus').then(function(data){
-			return data.json();
-		}).then(function(data){
-			console.log(data);
-			populateLocations(data.locations);
-		});
-	} else {
-	// ajax fallback
-		$.ajax({
-			url: API_URL + 'menus',
-			method: 'GET',
-			success: function(data){
-				data = JSON.parse(data);
-				populateLocations(data.locations);
-			},
-			error: function(err){
-				console.log(err);
-			}
-		});
-	}
-};
-
 
