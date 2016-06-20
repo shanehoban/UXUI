@@ -4,6 +4,92 @@ var ORDER = [];
 
 var MENU;
 var ITEM;
+var resterauntLocation;
+
+var locationAPI = (function(){
+	var locations;
+	var populateLocations = function(){
+		console.log('Locations', locations);
+		var locationHTML = '';
+		for(var i = 0; i < locations.length; i++){
+			locationHTML += '<li><a class="block-link" onclick="setLocation(\''+locations[i]+'\')">';
+			locationHTML += locations[i];
+			locationHTML += '<i class="fa fa-chevron-right"></i></a></li>';
+		}
+		$('.location-list').html(locationHTML);
+	};
+
+	var clearLocations = function(){
+		$('.location-list').html('');
+	};
+
+	var getResterauntList = function(){
+		if(self.fetch){
+			fetch(API_URL + 'menus').then(function(data){
+				return data.json();
+			}).then(function(data){
+				console.log(data);
+				locations = data.locations;
+				populateLocations();
+			});
+		} else {
+		// ajax fallback
+			$.ajax({
+				url: API_URL + 'menus',
+				method: 'GET',
+				success: function(data){
+					data = JSON.parse(data);
+				locations = data.locations;
+				populateLocations();
+				},
+				error: function(err){
+					console.log(err);
+				}
+			});
+		}
+	};
+
+	var hideLocations = function(){
+		$('.locations-row').hide();
+	}
+
+	var showLocations = function(){
+		$('.locations-row').show();
+	}
+
+	var activate = function(){
+		getResterauntList();
+	};
+
+	activate();
+
+	return {
+		hideLocations: hideLocations,
+		showLocations: showLocations
+	}
+})();
+
+
+var setLocation = function(locationValue){
+	console.log('Location Value', locationValue);
+	resterauntLocation = locationValue;
+	locationAPI.hideLocations();
+	$('.location-name').html(resterauntLocation);
+	$('.location-name').prop("display","inline");
+	$('.change-location').prop("display","inline");
+	$('.location-name').show();
+	$('.change-location').show();
+	//do stuff for menu
+	return false;
+}
+
+var changeLocation = function(){
+	locationAPI.showLocations();
+	$('.location-name').hide();
+	$('.change-location').hide();
+	//do stuff for menu
+	return false;
+}
 
 var findMenuItem = function(title){
 	for(var i = 0; i < MENU.length; i++){
@@ -142,7 +228,10 @@ var getLocation = function(){
         results = regex.exec(url);
     if (!results) return null;
     if (!results[2]) return '';
-    console.log("Location", decodeURIComponent(results[2].replace(/\+/g, " ")));
+    var location = decodeURIComponent(results[2].replace(/\+/g, " "));
+    $(".location").html(location);
+    $(".change-location").prop("href", "index.html");
+    console.log("Location", location);
 }
 
 $(document).ready(function(){
