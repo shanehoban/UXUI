@@ -79,21 +79,34 @@ var setupMenuListeners = function(){
 };
 
 
-var displayResterauntDetails = function(rest){
-	clearOrder();
-	var cuisines = '';
-	for(var i = 0; i < rest.Cuisines.length; i++){
-		cuisines += rest.Cuisines + ((i+1 === rest.Cuisines.length) ? '' : ', ');
+var getMenu = function(){
+	if(self.fetch){
+		fetch(API_URL + 'menus/thaiRestaurantMenu.json').then(function(data){
+			return data.json();
+		}).then(function(data){
+			console.log("Fetched: ", data);
+			populateMenu(data.RestaurantMenuCategories);
+		});
+	} else {
+		// ajax fallback
+		$.ajax({
+			url: API_URL + 'menus/' +  menu,
+			method: 'GET',
+			success: function(data){
+				data = JSON.parse(data);
+				console.log(data);
+				populateMenu(data.RestaurantMenuCategories);
+			},
+			error: function(err){
+				console.log(err);
+			}
+		});
 	}
-	$('.rest-name').html(rest.Name)
-	$('.rest-dsc').html(rest.Description)
-	$('.rest-quiz').html(cuisines)
-	$('.rest-address').html(rest.Address)
-	$('.rest-postcode').html(rest.Postcode)
-};
+}
 
 
 var populateMenu = function(menu){
+
 	MENU = menu;
 	var menuHTML = '';
 	for(var i = 0; i < menu.length; i++){
@@ -129,9 +142,9 @@ var populateLocations = function(locations){
 	console.log('Locations', locations);
 	var locationHTML = '';
 	for(var i = 0; i < locations.length; i++){
-		locationHTML += '<li><a data-loc="">';
+		locationHTML += '<li><a class="block-link" href="menu.html?loc=' + encodeURI(locations[i]) + '">';
 		locationHTML += locations[i];
-		locationHTML += '</a><i class="fa fa-chevron-right"></i></li>';
+		locationHTML += '<i class="fa fa-chevron-right"></i></a></li>';
 	}
 	$('.location-list').html(locationHTML);
 };
@@ -160,84 +173,4 @@ var getResterauntList = function(){
 	}
 };
 
-$(document).ready(function(){
-	$('.menu-btn').on('click', function(){
-		$('button').removeClass('active');
-		$(this).addClass('active');
-		var menu = $(this).attr('data-menu');
 
-		if(self.fetch){
-			fetch(API_URL + 'menus/' +  menu).then(function(data){
-				return data.json();
-			}).then(function(data){
-				console.log("Fetched: ", data);
-				displayResterauntDetails(data.RestaurantDescription);
-				populateMenu(data.RestaurantMenuCategories);
-			});
-		} else {
-			// ajax fallback
-			$.ajax({
-				url: API_URL + 'menus/' +  menu,
-				method: 'GET',
-				success: function(data){
-					data = JSON.parse(data);
-					console.log(data);
-					displayResterauntDetails(data.RestaurantDescription);
-					populateMenu(data.RestaurantMenuCategories);
-				},
-				error: function(err){
-					console.log(err);
-				}
-			});
-		}
-	});
-
-	$(document).ready(function(){
-		$('.menu-btn').on('click', function(){
-			$('button').removeClass('active');
-			$(this).addClass('active');
-			var menu = $(this).attr('data-menu');
-
-			if(self.fetch){
-				fetch(API_URL + 'menus/' +  menu).then(function(data){
-					return data.json();
-				}).then(function(data){
-					console.log("Fetched: ", data);
-					displayResterauntDetails(data.RestaurantDescription);
-					populateMenu(data.RestaurantMenuCategories);
-				});
-			} else {
-			// ajax fallback
-				$.ajax({
-					url: API_URL + 'menus/' +  menu,
-					method: 'GET',
-					success: function(data){
-						data = JSON.parse(data);
-						console.log(data);
-						displayResterauntDetails(data.RestaurantDescription);
-						populateMenu(data.RestaurantMenuCategories);
-					},
-					error: function(err){
-						console.log(err);
-					}
-				});
-			}
-		});
-
-		$('.add-to-order').on('click', function(){
-			ORDER.push(ITEM);
-			displayOrder();
-		});
-
-		$('.clear-order').on('click', function(){
-			if(confirm("Are you sure you want to clear your order?")){
-				clearOrder();
-			}
-		});
-
-		// click first button
-		$('button').first().click();
-
-		getResterauntList();
-	});
-});

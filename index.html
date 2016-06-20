@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Menus</title>
+	<title>Thai | Home</title>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -12,10 +12,12 @@
 	<script type="text/javascript" src="js/app.js"></script>
 	<script type="text/javascript" src="js/js.js"></script>
 </head>
-<body>
+<body class="landing-page">
 
 	<header>
-		<img src="img/thai-garden-logo.png" width="75" alt="Thai Garden Logo">
+		<a href="index.html">
+			<img src="img/thai-garden-logo.png" width="75" alt="Thai Garden Logo">
+		</a>
 	</header>
 
 	<div class="container">
@@ -39,6 +41,14 @@
 		</div>
 	
 	</div> <!-- end container -->
+
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			getResterauntList();
+		});
+	</script>
+
 
 </body>
 </html>
