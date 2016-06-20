@@ -7,8 +7,7 @@ var ITEM;
 var resterauntLocation;
 
 var locationAPI = (function(){
-	var locations;
-	var populateLocations = function(){
+	var populateLocations = function(locations){
 		console.log('Locations', locations);
 		var locationHTML = '';
 		for(var i = 0; i < locations.length; i++){
@@ -29,8 +28,7 @@ var locationAPI = (function(){
 				return data.json();
 			}).then(function(data){
 				console.log(data);
-				locations = data.locations;
-				populateLocations();
+				populateLocations(data.locations);
 			});
 		} else {
 		// ajax fallback
@@ -39,8 +37,7 @@ var locationAPI = (function(){
 				method: 'GET',
 				success: function(data){
 					data = JSON.parse(data);
-				locations = data.locations;
-				populateLocations();
+					populateLocations(data.locations);
 				},
 				error: function(err){
 					console.log(err);
