@@ -200,7 +200,8 @@ var menuAPI = (function(){
 	var setupMenuListeners = function(){
 		$('.menu-item').on('click', function(e){
 			var thisElement = $(this);
-			closeSubMenus(thisElement);
+			var menuItems = $('.menu-item');
+			closeSubMenus(menuItems);
 			e.stopPropagation();	
 			thisElement.addClass('shown');
 			thisElement.off('click');
@@ -210,7 +211,7 @@ var menuAPI = (function(){
 			thisElement.find('.item-sub-menu').slideDown('fast');
 
 			$('.shown .hide-sub-menu-btn').on('click', function(e){
-				closeSubMenus(thisElement);
+				closeSubMenus(menuItems);
 				setupMenuListeners();
 				e.stopPropagation();
 			})
