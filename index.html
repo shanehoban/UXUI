@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Menus</title>
+	
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/js.js"></script>
+</head>
+<body>
+	
+	<h1>FoodCo</h1>
+
+	<div class="menu-list">
+		<button class="menu-btn" data-menu="thaiRestaurantMenu.json">Thai Restaurant</button>
+		<button class="menu-btn" data-menu="burgerRestaurantMenu.json">Burger Restaurant</button>
+	</div>
+
+	<div class="menu">
+
+		<div class="rest-desc">
+			<span class="rest-name"></span>
+				<span class="rest-quiz"></span>
+			<div class="rest-dsc"></div>
+			<div class="rest-address"></div>
+			<div class="rest-postcode"></div>
+		</div>
+
+		<div class="rest-menu">
+			
+		</div>
+		
+	</div>
+
+	<div class="order-panel">
+		<div class="item-description">
+			
+			<div class="item-title"></div>
+			<div class="item-desc"></div>
+			<div class="item-price"></div>
+
+			<div class="item-variations"></div>
+			<hr class="order-panel-hr">
+			<button class="add-to-order" data-item-id="">Add to Order <i class="fa fa-plus-circle"></i></button>
+		</div>
+		
+		<div class="order-buttons">
+			<div class="order-details">
+				
+			</div>
+			<hr class="order-panel-hr">
+			<button class="place-order">Place Order <i class="fa fa-check-circle"></i></button>
+			<button class="clear-order">Clear Order <i class="fa fa-trash-o"></i></button>
+		</div>
+	</div>
+
+</body>
+</html>
