@@ -1,4 +1,3 @@
-var ORDER = [];
 
 var resterauntLocation;
 
@@ -24,14 +23,3 @@ var changeLocation = function(){
 	return false;
 }
 
-var clearOrder = function(){
-	ORDER = [];
-	ITEM = null;
-	$('.order-panel').fadeOut('fast');
-}
-
-var displayOrder = function(){
-	var orderHTML = '';
-	var orderTotal = 0;
-	console.log(ORDER);
-};

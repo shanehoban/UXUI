@@ -5,6 +5,16 @@ var menuAPI = (function(){
 	var selected;
 	var MENU;
 	var ITEM;
+	var labelCount = 0;
+
+	var extras = {
+		'steamed-rice': 0,
+		'brown-rice': 0,
+		'coconut-rice': 0.5,
+		'rice-noodles': 1,
+		'egg-noodles': 1
+		};
+	var extrasKeys = Object.keys(extras);
 
 	var populateMenu = function(menu){
 		MENU = menu;
@@ -67,18 +77,24 @@ var menuAPI = (function(){
 		$('.item-sub-menu').slideUp('fast');
 	};
 
-	var labelCount = 0;
+	
 	var addSubMenu = function(HTML){
 		HTML += '<div class="item-sub-menu">';
 			HTML += '<img class="sub-item-img" src="img/dish.png">';
 
 			HTML += '<div class="sub-item-meta">';
 				HTML += '<form class="sub-item-form">';
-				  HTML += '<input id="label' + (++labelCount) + '"" type="radio" checked name="side-dish" value="steamed-rice"> <label for="label' + labelCount + '">Steamed Rice<br>';
-				  HTML += '<input id="label' + (++labelCount) + '"" type="radio" name="side-dish" value="brown-rice"> <label for="label' + labelCount + '">Brown Rice</label><br>';
-				  HTML += '<input id="label' + (++labelCount) + '"" type="radio" name="side-dish" value="coconut-rice"> <label for="label' + labelCount + '">Coconut Rice</label><br>';
-				  HTML += '<input id="label' + (++labelCount) + '"" type="radio" name="side-dish" value="rice-noodles"> <label for="label' + labelCount + '">Rice Noodles</label><br>';
-				  HTML += '<input id="label' + (++labelCount) + '"" type="radio" name="side-dish" value="egg-noodles"> <label for="label' + labelCount + '">Egg Noodles</label><br>';
+
+				  for(var i = 0; i < extrasKeys.length; i++){
+				  	HTML += '<input class="extra-radio" id="label' + (++labelCount) + '" type="radio" ' + (i===0 ? 'checked' : '') + ' name="side-dish" value="' + extrasKeys[i] + '">';
+				  	HTML += '<label for="label' + labelCount + '">' + extrasKeys[i].replace(/-/g, ' ');
+
+				  	if(extras[extrasKeys[i]] !== 0){
+				  		HTML +=  '<span class="extras-price">&euro;' + extras[extrasKeys[i]].toFixed(2) + '</span>';
+				  	} 
+
+				  	HTML += '<br>';
+				  }
 				HTML += '</form>';
 			HTML += '</div>';
 
@@ -101,7 +117,13 @@ var menuAPI = (function(){
 	var setupMenuListeners = function(){
 		$('.menu-item').on('click', openSubMenu);
 		$('.qty-btn').on('click', updateQuantity);
+		$('.extra-radio').on('change', updateExtra);
+		$('.add-to-cart-btn').on('click', { method: 'add' }, orderAPI.updateOrder);
 	};
+
+	var updateExtra = function(e){
+		ITEM.extra = $(this).val();
+	}
 
 	var openSubMenu = function(e){
 		// Assign Global ITEM
@@ -112,7 +134,10 @@ var menuAPI = (function(){
 		closeSubMenus(menuItems);
 		selected.addClass('shown');
 		var item = selected.find('.menu-item-title');
+
 		ITEM = findMenuItem($(item).attr('data-title'));
+		ITEM.extra = extrasKeys[0]; // set first item in extras as default extra
+
 		selected.find('.item-sub-menu').slideDown('fast');
 		$('.shown .hide-sub-menu-btn').on('click', function(e){
 			closeSubMenus(menuItems);
@@ -125,6 +150,7 @@ var menuAPI = (function(){
 		var qtyInput = $(this).parent().find('.item-order-quantity');
 		var qty = parseInt($(qtyInput).val(), 10) + (plusClicked ? 1 : -1);
 		$(qtyInput).val((qty <= 1 && !plusClicked) ? 1 : qty);
+		ITEM.qty = $('.item-order-quantity').val();
 	}
 
 	var closeSubMenus = function(element){
@@ -160,9 +186,23 @@ var menuAPI = (function(){
 	var clearMenu = function(){
 		$('.menu-list').html('');
 	}
+
+	var getCurrentItem = function(){
+		return ITEM;
+	}
+
+	var getExtras = function(){
+		return {
+			extras: extras,
+			extrasKeys: extrasKeys
+		}
+	}
+
 	return {
 		clearMenu: clearMenu,
-		getMenu: getMenu
+		getMenu: getMenu,
+		getCurrentItem: getCurrentItem,
+		getExtras: getExtras
 	};
 })();
 
