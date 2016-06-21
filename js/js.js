@@ -18,6 +18,7 @@ var changeLocation = function(){
 	locationAPI.showLocations();
 	$('.location-name').hide();
 	$('.change-location').hide();
+	$('.order-price').hide();
 	$('.open-order').hide();
 	//do stuff for menu
 	menuAPI.clearMenu();

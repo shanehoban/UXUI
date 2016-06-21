@@ -123,9 +123,14 @@ var menuAPI = (function(){
 		$('.increment-quantity').on('click', incrementQuantity);
 		$('.decrement-quantity').on('click', decrementQuantity);
 		$('.extra-radio').on('change', updateExtra);
-		$('.add-to-cart-btn').on('click', { method: 'add' }, orderAPI.updateOrder);
+		$('.add-to-cart-btn').on('click', updateOrder);
 		$('.add-to-cart-btn').on('click', resetQuantity);
 	};
+
+	var updateOrder = function(){
+		var e = {data: { method: 'add', item: ITEM }};
+		orderAPI.updateOrder(e);
+	}
 
 	var updateExtra = function(e){
 		console.log(extrasKeys);
@@ -210,8 +215,7 @@ var menuAPI = (function(){
 
 	return {
 		clearMenu: clearMenu,
-		getMenu: getMenu,
-		getCurrentItem: getCurrentItem
+		getMenu: getMenu
 	};
 })();
 

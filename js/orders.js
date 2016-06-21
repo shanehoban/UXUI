@@ -38,9 +38,9 @@ var orderAPI = (function(){
 			// hide
 			$('.order-panel').slideUp('fast');
 			$('body').css('padding-bottom', '0');
-
 			$('.order-price').hide();
 			$('.open-order').hide();
+			$('.order-price').html('');
 		} else {
 			//show
 			$('.order-panel .order-total').html('Total: &euro;' + getOrderTotal());
@@ -54,7 +54,7 @@ var orderAPI = (function(){
 
 	var updateOrder = function(e){
 
-		var ITEM = menuAPI.getCurrentItem();
+		var ITEM = e.data.item;
 		if(ITEM.qty==0){
 			console.log("Invalid order quantity");
 			return;
@@ -162,7 +162,7 @@ var orderAPI = (function(){
 			orderListHTML += '<li class="order-list-item" data-item-id="' + item.orderCounter + '">';
 			orderListHTML += '<div class="order-list-icon"><i class="fa fa-pencil edit-item" data-item-id="' + item.orderCounter + '"></i></div>';
 			orderListHTML += '<div class="order-list-title">'  + item.Title + '</div>';
-			orderListHTML += '<div class="order-list-extra capitalize">w/ ' + (item.extra.replace(/-/g, ' ')) + ' </div>';
+			orderListHTML += '<div class="order-list-extra capitalize">w/ ' + (item.extra.name.replace(/-/g, ' ')) + ' </div>';
 			orderListHTML += '<div class="order-list-qty"> x' + (item.qty || 1) + '</div>';
 			orderListHTML += '<div class="order-list-price">&euro;' + price.toFixed(2) + '</div>';
 			orderListHTML = addSubListMenu(orderListHTML, item.orderCounter);
@@ -241,7 +241,6 @@ var orderAPI = (function(){
 	});
 
 	return {
-		updateOrder: updateOrder,
-		getOrderTotal: getOrderTotal
+		updateOrder: updateOrder
 	}
 })();
