@@ -1,3 +1,5 @@
+@green: #036903;
+
 	*{
 		margin: 0;
 		padding: 0;
@@ -12,6 +14,13 @@
 
 	.capitalize{
 		text-transform: capitalize;
+	}
+
+	.fake-link {
+	    font-size: 10px;
+	    color: #1c49ca;
+	    text-decoration: underline;
+	    cursor: pointer;
 	}
 
 	body{
@@ -176,7 +185,7 @@
 	    right: 0;
 	    display: inline-block;
 	    width: 18%;
-	    color: #036903;
+	    color: @green;
 	    font-weight: bold;
 	    font-size: 12px;
 	    text-align: right;
@@ -230,7 +239,7 @@
 	.extras-price {
 	    letter-spacing: 1px;
 	    float: right;
-	    color: #036903;
+	    color: @green;
 	    font-size: 11px;
 	}
 
@@ -290,7 +299,7 @@
 	.order-price {
 	    float: right;
 	    font-size: 11px;
-	    color: #8e8b8b;
+	    color: @green;
 	}
 
 	.open-order {
@@ -360,6 +369,19 @@
 	    	margin-left: 3px;
 	    }
 	}
+
+	.close-modal {
+	    float: right;
+	    margin: 6px 6px 0 0;
+	    cursor: pointer;
+	    color: #666;
+	    .transition;
+
+	    &:hover{
+	    	.transition;
+	    	color: black;
+	    }
+	}
 	
 	.order-modal {
 		display: none;
@@ -372,18 +394,11 @@
 	    z-index: 2;
 	}
 
-	.close-modal {
-	    float: right;
-	    margin: 8px 12px 0 0;
-	    cursor: pointer;
-	    color: #666;
-	    .transition;
-
-	    &:hover{
-	    	.transition;
-	    	color: black;
-	    }
-	}
+	.order-modal h2 {
+	    color: #dc5b00;
+	    border-bottom: 2px solid;
+	    margin-bottom: 6px;
+	}	
 
 	.order-review {
 	    border-radius: 5px;
@@ -391,6 +406,68 @@
 	    display: block;
 	    margin: 15px;
 	    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.18);
+	    padding: 10px
 	}
 
+	.order-modal .order-list {
+		padding-left: 5px;
+		font-family: arial;
+		list-style-type: none;
+		margin: 10px 0;
+	    max-height: 450px;
+	    overflow-y: auto;
+	    font-size: 11px;
+	}
 	
+	.order-list-item {
+	    border-bottom: 1px solid #c1c1c1;
+	    padding-bottom: 5px;
+	    margin-bottom: 5px;
+	    position: relative;
+	}
+	
+	.order-list-extra {
+	    font-size: 9px;
+	    display: inline-block;
+	}
+
+	.order-list-qty {
+	    font-size: 9px;
+	    display: inline-block;
+	    margin-left: 5px;
+	}
+
+	.order-list-price {
+	    position: absolute;
+	    top: 0;
+	    right: 0;
+	    color: @green;
+	    font-weight: bold;
+	    font-size: 11px;
+	}
+
+	.order-modal-menu {
+	    font-size: 13px;
+	    margin-bottom: 6px;
+	}
+
+	.pay-cash-radio {
+	    margin-left: 5px;
+	}
+
+	.order-total-modal {
+	    border-top: 2px dotted rgba(0, 0, 0, 0.8);
+	    margin-top: 10px;
+	}
+
+	.modal-coupon {
+	    margin: 5px 0;
+	}
+
+	.coupon-code {
+	    padding: 4px;
+	    font-size: 10px;
+	    border: 1px solid #a7a7a7;
+	    margin-left: 4px;
+	    display: none;
+	}

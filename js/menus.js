@@ -114,11 +114,17 @@ var menuAPI = (function(){
 		return HTML;
 	};
 
+	var resetQuantity = function(){
+		ITEM.qty = 1;
+		$('.item-order-quantity').val(1);
+	}
+
 	var setupMenuListeners = function(){
 		$('.menu-item').on('click', openSubMenu);
 		$('.qty-btn').on('click', updateQuantity);
 		$('.extra-radio').on('change', updateExtra);
 		$('.add-to-cart-btn').on('click', { method: 'add' }, orderAPI.updateOrder);
+		$('.add-to-cart-btn').on('click', resetQuantity);
 	};
 
 	var updateExtra = function(e){

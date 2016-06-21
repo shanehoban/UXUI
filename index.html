@@ -62,6 +62,7 @@
 		<button class="review-order-btn">Review Order <i class="fa fa-chevron-right"></i></button>
 	</div>
 
+	
 	<div class="order-modal">
 		<div class="order-review">
 			<i class="fa fa-times close-modal"></i>
@@ -70,6 +71,25 @@
 			<ul class="order-list">
 				
 			</ul>
+
+			<div class="order-modal-menu">
+				<p>Pay with:</p>
+				<form>
+					<input class="pay-card-radio" id="pay-card" type="radio" checked name="payment-method" value="pay-card">
+					<label for="pay-card">Credit Card</label>
+					<input class="pay-cash-radio" id="pay-cash" type="radio" name="payment-method" value="pay-cash">
+					<label for="pay-cash">Cash</label>
+				</form>
+
+				<div class="modal-coupon">
+					<span class="add-coupon-btn fake-link">Add Coupon</span>
+					<input type="text" class="coupon-code" name="coupon" placeholder="Coupon Code">
+				</div>
+			</div>
+
+			<div class="order-total-modal">
+				
+			</div>
 		</div>
 	</div>
 

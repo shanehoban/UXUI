@@ -9,6 +9,7 @@ var orderAPI = (function(){
 	var extras = menuAPI.getExtras();
 
 	var updateOrderTotal = function(){
+		orderTotal = 0;
 		for(var i=0; i < ORDER.length; i++){
 			var item = ORDER[i];
 			var itemTotal = 0;
@@ -73,13 +74,17 @@ var orderAPI = (function(){
 		for(var i=0; i<ORDER.length; i++){
 			var item = ORDER[i];
 			var price = (item.Price + extras.extras[item.extra])*(+item.qty);
-			orderList += '<li class="order-list-item" data-item-id="' + item.orderCounter + '">' + item.Title;
-			orderList += '<div class="order-list-extra capitalize">w/ ' + (item.extra.replace(/-/g, ' ')) + '</div>';
-			orderList += '<div class="order-list-qty">x' + (item.qty || 1) + '</div>';
+			orderList += '<li class="order-list-item" data-item-id="' + item.orderCounter + '">';
+			orderList += '<div class="order-list-title">'  + item.Title + '</div>';
+			orderList += '<div class="order-list-extra capitalize">w/ ' + (item.extra.replace(/-/g, ' ')) + ' </div>';
+			orderList += '<div class="order-list-qty"> x' + (item.qty || 1) + '</div>';
 			orderList += '<div class="order-list-price">&euro;' + price.toFixed(2) + '</div>';
 			orderList += '</li>';
 		}
+		
+		var totalHTML = 'Total: <span class="pull-right modal-total-price">&euro;' + getOrderTotal() + '</span>';
 
+		$('.order-total-modal').html(totalHTML);
 		$('.order-list').html(orderList);
 		$('.order-modal').fadeIn('fast');
 	}
@@ -90,8 +95,11 @@ var orderAPI = (function(){
 
 	// listeners
 	$(document).ready(function(){
-		$('.review-order-btn').on('click', showReviewModal);
+		$('.review-order-btn, .open-order').on('click', showReviewModal);
 		$('.close-modal').on('click', closeModal);
+		$('.add-coupon-btn').on('click', function(){
+			$('.coupon-code').fadeIn('fast').focus();
+		});
 		$(document).keyup(function(e) {
 		     if (e.keyCode == 27) { // escape key maps to keycode `27`
 		       closeModal();
