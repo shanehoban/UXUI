@@ -128,7 +128,12 @@ var menuAPI = (function(){
 	};
 
 	var updateExtra = function(e){
-		ITEM.extra = $(this).val();
+		console.log(extrasKeys);
+		setExtraValue($(this).val());
+	}
+
+	var setExtraValue = function(key){
+		ITEM.extra = {name: key, price: extras[key]};
 	}
 
 	var openSubMenu = function(e){
@@ -142,7 +147,7 @@ var menuAPI = (function(){
 		var item = selected.find('.menu-item-title');
 
 		ITEM = findMenuItem($(item).attr('data-title'));
-		ITEM.extra = extrasKeys[0]; // set first item in extras as default extra
+		setExtraValue(extrasKeys[0]); // set first item in extras as default extra
 
 		selected.find('.item-sub-menu').slideDown('fast');
 		$('.shown .hide-sub-menu-btn').on('click', function(e){
@@ -203,17 +208,10 @@ var menuAPI = (function(){
 		return ITEM;
 	}
 
-	var getExtras = function(){
-		return {
-			extras: extras
-		}
-	}
-
 	return {
 		clearMenu: clearMenu,
 		getMenu: getMenu,
-		getCurrentItem: getCurrentItem,
-		getExtras: getExtras
+		getCurrentItem: getCurrentItem
 	};
 })();
 

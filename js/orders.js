@@ -5,16 +5,13 @@ var orderAPI = (function(){
 	var orderCounter = 0;
 	var orderTotal = 0;
 
-	// this is an entire extras object {extras, extrasKeys}
-	var extras = menuAPI.getExtras();
-
 	var updateOrderTotal = function(){
 		orderTotal = 0;
 		for(var i=0; i < ORDER.length; i++){
 			var item = ORDER[i];
 			var itemTotal = 0;
 			itemTotal += item.Price;
-			itemTotal += extras.extras[item.extra];
+			itemTotal += item.extra.price;
 			orderTotal += (item.qty || 1) * itemTotal;
 		}
 	}
@@ -67,7 +64,7 @@ var orderAPI = (function(){
 	var getOrderIndex = function(item){
 		var index = 0;
 		for(;index<ORDER.length;index++){
-			if(ORDER[index].Id===item.Id&&ORDER[index].extra===item.extra){
+			if(ORDER[index].Id===item.Id&&ORDER[index].extra.name===item.extra.name){
 				return index;
 			}
 		}
@@ -117,10 +114,10 @@ var orderAPI = (function(){
 		var orderList = '';
 		for(var i=0; i<ORDER.length; i++){
 			var item = ORDER[i];
-			var price = (item.Price + extras.extras[item.extra])*(+item.qty);
+			var price = (item.Price + item.extra.price)*(+item.qty);
 			orderList += '<li class="order-list-item" data-item-id="' + item.orderCounter + '">';
 			orderList += '<div class="order-list-title">'  + item.Title + '</div>';
-			orderList += '<div class="order-list-extra capitalize">w/ ' + (item.extra.replace(/-/g, ' ')) + ' </div>';
+			orderList += '<div class="order-list-extra capitalize">w/ ' + (item.extra.name.replace(/-/g, ' ')) + ' </div>';
 			orderList += '<div class="order-list-qty"> x' + (item.qty || 1) + '</div>';
 			orderList += '<div class="order-list-price">&euro;' + price.toFixed(2) + '</div>';
 			orderList += '</li>';
