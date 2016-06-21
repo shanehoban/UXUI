@@ -77,7 +77,7 @@ var menuAPI = (function(){
 		$('.item-sub-menu').slideUp('fast');
 	};
 
-	
+
 	var addSubMenu = function(HTML){
 		HTML += '<div class="item-sub-menu">';
 			HTML += '<img class="sub-item-img" src="img/dish.png">';
