@@ -99,9 +99,9 @@ var menuAPI = (function(){
 
 			HTML += '<div class="sub-item-quantity">';
 
-				HTML += '<i class="fa fa-minus qty-btn"></i>';
+				HTML += '<i class="fa fa-minus qty-btn decrement-quantity"></i>';
 				HTML += '<input class="item-order-quantity" value="1" type="number" min="1">';
-				HTML += '<i class="fa fa-plus qty-btn"></i>';
+				HTML += '<i class="fa fa-plus qty-btn increment-quantity"></i>';
 
 			HTML += '</div>';
 
@@ -120,14 +120,20 @@ var menuAPI = (function(){
 
 	var setupMenuListeners = function(){
 		$('.menu-item').on('click', openSubMenu);
-		$('.qty-btn').on('click', updateQuantity);
+		$('.increment-quantity').on('click', incrementQuantity);
+		$('.decrement-quantity').on('click', decrementQuantity);
 		$('.extra-radio').on('change', updateExtra);
 		$('.add-to-cart-btn').on('click', { method: 'add' }, orderAPI.updateOrder);
 		$('.add-to-cart-btn').on('click', resetQuantity);
 	};
 
 	var updateExtra = function(e){
-		ITEM.extra = $(this).val();
+		console.log(extrasKeys);
+		setExtraValue($(this).val());
+	}
+
+	var setExtraValue = function(key){
+		ITEM.extra = {name: key, price: extras[key]};
 	}
 
 	var openSubMenu = function(e){
@@ -141,7 +147,7 @@ var menuAPI = (function(){
 		var item = selected.find('.menu-item-title');
 
 		ITEM = findMenuItem($(item).attr('data-title'));
-		ITEM.extra = extrasKeys[0]; // set first item in extras as default extra
+		setExtraValue(extrasKeys[0]); // set first item in extras as default extra
 
 		selected.find('.item-sub-menu').slideDown('fast');
 		$('.shown .hide-sub-menu-btn').on('click', function(e){
@@ -150,12 +156,18 @@ var menuAPI = (function(){
 		});
 	}
 
-	var updateQuantity = function(e){
-		var plusClicked = $(this).hasClass('fa-plus');
+	var incrementQuantity = function(e){
 		var qtyInput = $(this).parent().find('.item-order-quantity');
-		var qty = parseInt($(qtyInput).val(), 10) + (plusClicked ? 1 : -1);
-		$(qtyInput).val((qty <= 1 && !plusClicked) ? 1 : qty);
-		ITEM.qty = $('.item-order-quantity').val();
+		var qty = parseInt($(qtyInput).val(), 10) + 1;
+		$(qtyInput).val(qty);
+		ITEM.qty = parseInt(qty);
+	}
+
+	var decrementQuantity = function(e){
+		var qtyInput = $(this).parent().find('.item-order-quantity');
+		var qty = parseInt($(qtyInput).val(), 10) - 1;
+		$(qtyInput).val(qty);
+		ITEM.qty = parseInt(qty);
 	}
 
 	var closeSubMenus = function(element){
@@ -196,18 +208,10 @@ var menuAPI = (function(){
 		return ITEM;
 	}
 
-	var getExtras = function(){
-		return {
-			extras: extras,
-			extrasKeys: extrasKeys
-		}
-	}
-
 	return {
 		clearMenu: clearMenu,
 		getMenu: getMenu,
-		getCurrentItem: getCurrentItem,
-		getExtras: getExtras
+		getCurrentItem: getCurrentItem
 	};
 })();
 

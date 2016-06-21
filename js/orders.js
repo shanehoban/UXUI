@@ -5,16 +5,13 @@ var orderAPI = (function(){
 	var orderCounter = 0;
 	var orderTotal = 0;
 
-	// this is an entire extras object {extras, extrasKeys}
-	var extras = menuAPI.getExtras();
-
 	var updateOrderTotal = function(){
 		orderTotal = 0;
 		for(var i=0; i < ORDER.length; i++){
 			var item = ORDER[i];
 			var itemTotal = 0;
 			itemTotal += item.Price;
-			itemTotal += extras.extras[item.extra];
+			itemTotal += item.extra.price;
 			orderTotal += (item.qty || 1) * itemTotal;
 		}
 	}
@@ -41,9 +38,9 @@ var orderAPI = (function(){
 			// hide
 			$('.order-panel').slideUp('fast');
 			$('body').css('padding-bottom', '0');
+
 			$('.order-price').hide();
 			$('.open-order').hide();
-			
 		} else {
 			//show
 			$('.order-panel .order-total').html('Total: &euro;' + getOrderTotal());
@@ -58,34 +55,52 @@ var orderAPI = (function(){
 	var updateOrder = function(e){
 
 		var ITEM = menuAPI.getCurrentItem();
+		if(ITEM.qty==0){
+			console.log("Invalid order quantity");
+			return;
+		}
 		ITEM.qty = ITEM.qty || 1;
 		ITEM.orderCounter = orderCounter; // unique identifier for object in order
-		if(e.data.method === 'add'){
+		if(ITEM.qty>0){
 			console.log('Adding to order');
-			var copy = JSON.parse(JSON.stringify(ITEM));
-			addToOrder(copy);
+			addToOrder(JSON.parse(JSON.stringify(ITEM)));
 			// ORDER.push(JSON.parse(JSON.stringify(ITEM)));
 		} else {
 			console.log('Removing from order');
-			ORDER.pop();
-			orderCounter--;
+			removeFromOrder(ITEM);
 		}
-
 		updateOrderTotal();
 		updateOrderPanel();
 	}
 
-	var addToOrder = function(item){
+	var getOrderIndex = function(item){
 		var index = 0;
-		var same = false;
 		for(;index<ORDER.length;index++){
-			if(ORDER[index].Id===item.Id&&ORDER[index].extra===item.extra){
-				console.log("Same");
-				same = true;
-				break;
+			if(ORDER[index].Id===item.Id&&ORDER[index].extra.name===item.extra.name){
+				return index;
 			}
 		}
-		if(same){
+		return -1;
+	}
+
+	var removeFromOrder = function(item){
+		var index = getOrderIndex(item);
+		if(index>=0){
+			if(ORDER[index].qty<=Math.abs(item.qty)){
+				console.log("remove");
+				ORDER.splice(index,index+1);
+				orderCounter--;
+			}
+			else {
+				console.log("decrement");
+				ORDER[index].qty += item.qty;
+			}
+		}
+	}
+
+	var addToOrder = function(item){
+		var index = getOrderIndex(item);
+		if(index>=0){
 			console.log("Already there");
 			ORDER[index].qty += item.qty;
 			ORDER[index].price = ORDER[index].qty * ORDER[index].Price;
@@ -143,7 +158,7 @@ var orderAPI = (function(){
 		var orderListHTML = '';
 		for(var i=0; i<ORDER.length; i++){
 			var item = ORDER[i];
-			var price = (item.Price + extras.extras[item.extra])*(+item.qty);
+			var price = (item.Price + item.extra.price)*(+item.qty);
 			orderListHTML += '<li class="order-list-item" data-item-id="' + item.orderCounter + '">';
 			orderListHTML += '<div class="order-list-icon"><i class="fa fa-pencil edit-item" data-item-id="' + item.orderCounter + '"></i></div>';
 			orderListHTML += '<div class="order-list-title">'  + item.Title + '</div>';
