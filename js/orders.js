@@ -66,7 +66,8 @@ var orderAPI = (function(){
 		var index = 0;
 		var same = false;
 		for(;index<ORDER.length;index++){
-			if(ORDER[index].id===item.id&&ORDER[index].extra===item.extra){
+			if(ORDER[index].Id===item.Id&&ORDER[index].extra===item.extra){
+				console.log("Same");
 				same = true;
 				break;
 			}
