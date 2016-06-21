@@ -3,6 +3,17 @@
 		padding: 0;
 	}
 
+	.transition{
+		-webkit-transition: all 0.2s linear;
+	    -moz-transition: all 0.2s linear;
+	    -o-transition: all 0.2s linear;
+	    transition: all 0.2s linear;
+	}
+
+	.capitalize{
+		text-transform: capitalize;
+	}
+
 	body{
 		font-family: 'Open Sans';
 		font-size: 14px;
@@ -31,6 +42,11 @@
 		border-bottom: 1px solid gray;
 		background: white;
 		z-index: 1;
+		position: relative;
+
+		& a{
+			text-decoration: none;
+		}
 	}
 
 	.content {
@@ -140,6 +156,8 @@
 
 	    &:last-of-type{
 	    	border-bottom: 0;
+	    	padding-bottom: 0;
+	    	margin-bottom: 0;
 	    }
 	}
 
@@ -197,10 +215,10 @@
 	}
 
 	.sub-item-form label {
+		.capitalize;
 	    font-size: 12px;
 	    vertical-align: top;
 	    position: relative;
-	        text-transform: capitalize;
 	}
 
 	.sub-item-quantity {
@@ -269,9 +287,18 @@
 		font-size: 1.25em;
 	}
 
+	.order-price {
+	    float: right;
+	    font-size: 11px;
+	    color: #8e8b8b;
+	}
+
 	.open-order {
-		color: red;
-		cursor: pointer;
+	    color: red;
+	    cursor: pointer;
+	    position: absolute;
+	    bottom: 17px;
+	    right: 20px;
 	}
 
 	.change-location {
@@ -280,3 +307,90 @@
 		font-family: "Helvetica";
 		cursor: pointer;
 	}
+
+
+
+
+	// Order Panel
+
+	.order-panel {
+		display: none;
+	    position: fixed;
+	    bottom: 0;
+	    left: 0;
+	    right: 0;
+	    height: 55px;
+	    background: rgba(255,255,255,.86);
+	    text-align: center;
+
+		
+		.order-total {
+		    line-height: 54px;
+		    font-size: 17px;
+		    width: 49%;
+		    color: #1d1d1d;
+		}
+
+	} // end .order-panel
+
+	.review-order-btn{
+		.transition;
+		cursor: pointer;
+		height: 100%;
+	    float: right;
+	    border: 0;
+	    outline: 0;
+	    background: #109410;
+	    color: white;
+	    font-family: 'Roboto';
+	    font-size: 17px;
+	    border-left: 4px solid #055f05;
+	    text-shadow: -1px 1px 0 #055f05;
+	    font-weight: bold;
+	    width: 49%;
+
+	    &:hover{
+	    	.transition;
+			background: #068806;
+    		border-color: #186d18;
+		}
+
+	    & .fa{
+	    	font-size: 0.85em;
+	    	margin-left: 3px;
+	    }
+	}
+	
+	.order-modal {
+		display: none;
+	    position: fixed;
+	    top: 0;
+	    bottom: 0;
+	    left: 0;
+	    right: 0;
+	    background: rgba(0, 0, 0, 0.68);
+	    z-index: 2;
+	}
+
+	.close-modal {
+	    float: right;
+	    margin: 8px 12px 0 0;
+	    cursor: pointer;
+	    color: #666;
+	    .transition;
+
+	    &:hover{
+	    	.transition;
+	    	color: black;
+	    }
+	}
+
+	.order-review {
+	    border-radius: 5px;
+	    background: white;
+	    display: block;
+	    margin: 15px;
+	    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.18);
+	}
+
+	

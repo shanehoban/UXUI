@@ -27,9 +27,11 @@
 		</a>
 		<span class="location-name"></span>
 		<a class="change-location" onclick="changeLocation()">Change</a>
-		<a class="open-order">
+
+		<div class="order-price"></div>
+		<div class="open-order">
 			<i class="fa fa-shopping-basket"></i>
-		</a>
+		</div>
 	</header>
 
 	<div class="container">
@@ -54,6 +56,22 @@
 
 		</div>
 	</div> <!-- end container -->
+
+	<div class="order-panel">
+		<span class="order-total"></span>
+		<button class="review-order-btn">Review Order <i class="fa fa-chevron-right"></i></button>
+	</div>
+
+	<div class="order-modal">
+		<div class="order-review">
+			<i class="fa fa-times close-modal"></i>
+			<h2> Review Order </h2>
+
+			<ul class="order-list">
+				
+			</ul>
+		</div>
+	</div>
 
 </body>
 </html>
