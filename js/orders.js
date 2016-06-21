@@ -9,6 +9,7 @@ var orderAPI = (function(){
 	var extras = menuAPI.getExtras();
 
 	var updateOrderTotal = function(){
+		orderTotal = 0;
 		for(var i=0; i < ORDER.length; i++){
 			var item = ORDER[i];
 			var itemTotal = 0;
@@ -43,13 +44,13 @@ var orderAPI = (function(){
 	var updateOrder = function(e){
 
 		var ITEM = menuAPI.getCurrentItem();
-			ITEM.qty = ITEM.qty || 1;
-			ITEM.orderCounter = orderCounter; // unique identifier for object in order
-
+		ITEM.qty = ITEM.qty || 1;
+		ITEM.orderCounter = orderCounter; // unique identifier for object in order
 		if(e.data.method === 'add'){
 			console.log('Adding to order');
-			ORDER.push(JSON.parse(JSON.stringify(ITEM)));
-			orderCounter++;
+			var copy = JSON.parse(JSON.stringify(ITEM));
+			addToOrder(copy);
+			// ORDER.push(JSON.parse(JSON.stringify(ITEM)));
 		} else {
 			console.log('Removing from order');
 			ORDER.pop();
@@ -60,7 +61,30 @@ var orderAPI = (function(){
 		updateOrderPanel();
 	}
 
+	var addToOrder = function(item)
+	{
+		var index = 0;
+		var same = false;
+		for(;index<ORDER.length;index++){
+			if(ORDER[index].id===item.id&&ORDER[index].extra===item.extra){
+				same = true;
+				break;
+			}
+		}
+		if(same){
+			console.log("Already there");
+			ORDER[index].qty += item.qty;
+			ORDER[index].price = ORDER[index].qty * ORDER[index].Price;
+		}
+		else{
+			console.log("Add");
+			ORDER.push(item);
+			orderCounter++;
+		}
+	}
+
 	var getOrder = function(){
+		console.log("Order", ORDER);
 		return ORDER;
 	}
 
