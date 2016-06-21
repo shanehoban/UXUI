@@ -23,9 +23,44 @@
 	    cursor: pointer;
 	}
 
+	.inline-block{
+		display: inline-block !important;
+	}
+
+
+/////////////////////////////////////////////////////
+
+
 	body{
 		font-family: 'Open Sans';
 		font-size: 14px;
+	}
+
+	input[type="radio"] {
+	    display: none;
+	}
+
+	input[type="radio"] + label {
+		.transition;
+	    color: #666;
+	    border: 1px solid;
+	    display: block;
+	    margin: 0;
+	    padding: 4px 6px;
+	    border-radius: 5px;
+	    margin-top: 7px;
+	    color: rgb(128, 128, 128);
+	    cursor: pointer;
+
+	    &:first-of-type{
+	    	margin-top: 0;
+	    }
+	}
+
+	input[type="radio"]:checked + label{
+		.transition;
+		 color: blue;
+		 background: #e1faff;
 	}
 
 
@@ -210,12 +245,13 @@
 	.sub-item-meta {
 	    display: inline-block;
 	    vertical-align: top;
-	    width: 55%;
+	    width: 58%;
+	    margin-bottom: 7px;
 	}
 
 	.sub-item-form {
 	    font-family: arial;
-	    font-size: 16px;
+	    margin-left: 5px;
 	}
 
 	.sub-item-form input {
@@ -225,7 +261,7 @@
 
 	.sub-item-form label {
 		.capitalize;
-	    font-size: 12px;
+	    font-size: 11px;
 	    vertical-align: top;
 	    position: relative;
 	}
@@ -461,13 +497,14 @@
 	}
 
 	.modal-coupon {
-	    margin: 5px 0;
+	    margin: 10px 0;
 	}
 
 	.coupon-code {
 	    padding: 4px;
 	    font-size: 10px;
 	    border: 1px solid #a7a7a7;
+	    border-radius: 3px;
 	    margin-left: 4px;
 	    display: none;
 	}
