@@ -4,6 +4,7 @@ var menuAPI = (function(){
 	var selected;
 	var MENU;
 	var ITEM;
+	var labelCount = 0;
 	var populateMenu = function(menu){
 		MENU = menu;
 		var menuHTML = '';
@@ -65,7 +66,6 @@ var menuAPI = (function(){
 		$('.item-sub-menu').slideUp('fast');
 	};
 
-	var labelCount = 0;
 	var addSubMenu = function(HTML){
 		HTML += '<div class="item-sub-menu">';
 			HTML += '<img class="sub-item-img" src="img/dish.png">';
