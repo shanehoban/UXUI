@@ -92,8 +92,7 @@ var menuAPI = (function(){
 				  	if(extras[extrasKeys[i]] !== 0){
 				  		HTML +=  '<span class="extras-price">&euro;' + extras[extrasKeys[i]].toFixed(2) + '</span>';
 				  	} 
-
-				  	HTML += '<br>';
+				  	HTML += '</label>';
 				  }
 				HTML += '</form>';
 			HTML += '</div>';
