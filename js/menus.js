@@ -1,10 +1,12 @@
 var API_URL =  API_URL || 'http://127.0.0.1:1337/' ;
 
 var menuAPI = (function(){ 
+
 	var selected;
 	var MENU;
 	var ITEM;
 	var labelCount = 0;
+
 	var populateMenu = function(menu){
 		MENU = menu;
 		var menuHTML = '';
@@ -98,6 +100,7 @@ var menuAPI = (function(){
 
 	var setupMenuListeners = function(){
 		$('.menu-item').on('click', openSubMenu);
+		$('.qty-btn').on('click', updateQuantity);
 	};
 
 	var openSubMenu = function(e){
@@ -115,6 +118,13 @@ var menuAPI = (function(){
 			closeSubMenus(menuItems);
 			e.stopPropagation();
 		});
+	}
+
+	var updateQuantity = function(e){
+		var plusClicked = $(this).hasClass('fa-plus');
+		var qtyInput = $(this).parent().find('.item-order-quantity');
+		var qty = parseInt($(qtyInput).val(), 10) + (plusClicked ? 1 : -1);
+		$(qtyInput).val((qty <= 1 && !plusClicked) ? 1 : qty);
 	}
 
 	var closeSubMenus = function(element){

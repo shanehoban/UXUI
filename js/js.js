@@ -1,4 +1,3 @@
-
 var ORDER = [];
 
 var resterauntLocation;
