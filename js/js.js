@@ -1,10 +1,3 @@
-var API_URL = 'http://127.0.0.1:1337/';
-
-var ORDER = [];
-
-var MENU;
-var ITEM;
-var resterauntLocation;
 
 var locationAPI = (function(){
 	var populateLocations = function(locations){
@@ -100,12 +93,11 @@ var displayOrder = function(){
 
 
 
+var menuAPI = (function(){
 
-
-
-
-var menuAPI = (function(){ 
 	var selected;
+	var labelCount = 0;
+
 	var populateMenu = function(menu){
 		MENU = menu;
 		var menuHTML = '';
@@ -166,8 +158,7 @@ var menuAPI = (function(){
 		// Hide all sub menus
 		$('.item-sub-menu').slideUp('fast');
 	};
-
-	var labelCount = 0;
+	
 	var addSubMenu = function(HTML){
 		HTML += '<div class="item-sub-menu">';
 			HTML += '<img class="sub-item-img" src="img/dish.png">';
@@ -252,9 +243,19 @@ var menuAPI = (function(){
 	var clearMenu = function(){
 		$('.menu-list').html('');
 	}
+
 	return {
 		clearMenu: clearMenu,
 		getMenu: getMenu
 	};
 })();
 
+$(document).ready(function(){
+
+	$('.qty-btn').on('click', function(){
+		var plusClicked = $(this).hasClass('fa-plus');
+		var parent = $(this).parent();
+
+		console.log('Clicked: ', (plusClicked ? 'plus' : 'minus'));
+	});
+});
