@@ -1,3 +1,24 @@
 {
-	"locations" : ["Blackrock", "Dun Laoirige", "Kimmage", "Rathmines", "Templeogue"]
+	"locations" : [
+		{
+			"location":"Blackrock",
+			"menu": "thaiRestaurantMenu"
+		}, 
+		{
+			"location": "Dun Laoirige",
+			"menu": "thaiRestaurantMenu"
+		}, 
+		{
+			"location":"Kimmage",
+			"menu": "thaiRestaurantMenu"
+		},
+		{
+			"location":"Rathmines",
+			"menu": "thaiRestaurantMenu"
+		},
+		{
+			"location":"Templeogue",
+			"menu": "thaiRestaurantMenu"
+		}
+	]
 }

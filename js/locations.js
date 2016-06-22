@@ -4,11 +4,32 @@ var locationAPI = (function(){
 	var populateLocations = function(locations){
 		var locationHTML = '';
 		for(var i = 0; i < locations.length; i++){
-			locationHTML += '<li><a class="block-link" onclick="setLocation(\''+locations[i]+'\')">';
-			locationHTML += locations[i];
+			locationHTML += '<li><a class="block-link location-link" location="'+locations[i].location+'" menu="'+locations[i].menu+'")">';
+			locationHTML += locations[i].location;
 			locationHTML += '<i class="fa fa-chevron-right"></i></a></li>';
 		}
 		$('.location-list').html(locationHTML);
+		$('.location-link').click(setLocation);
+		$('.change-location').click(changeLocation);
+	};
+
+	var setLocation = function(){
+		hideLocations();
+		$('.location-name').html($(this).attr("location"));
+		$('.location-name').prop("display","inline");
+		$('.change-location').prop("display","inline");
+		$('.location-name').show();
+		$('.change-location').show();
+		$(document).trigger("menuSelected",[$(this).attr("menu")]);
+	}
+
+	var changeLocation = function(){
+		showLocations();
+		$('.location-name').hide();
+		$('.change-location').hide();
+		$('.order-price').hide();
+		$('.open-order').hide();
+		$(document).trigger("changeLocation");
 	};
 
 	var clearLocations = function(){
@@ -39,6 +60,10 @@ var locationAPI = (function(){
 
 	var hideLocations = function(){
 		$('.locations-row').hide();
+		$('.location-name').hide();
+		$('.change-location').hide();
+		$('.order-price').hide();
+		$('.open-order').hide();
 	}
 
 	var showLocations = function(){
@@ -50,9 +75,4 @@ var locationAPI = (function(){
 	};
 
 	activate();
-
-	return {
-		hideLocations: hideLocations,
-		showLocations: showLocations
-	}
 })();
