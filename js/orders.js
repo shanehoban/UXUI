@@ -7,11 +7,19 @@ var orderAPI = (function(){
 
 	// order form defaults
 	var orderForm = {
-		payWith: 'cc',
+		paymentMethod: 'cc',
 		coupon: '',
 		orderFor: 'collection',
-		collectAt: ''
+		time: '',
+		name: '',
+		mobile: '',
+		ccno: '',
+		csv: '',
+		address1: '',
+		address2: ''
 	};
+
+	var modalPages = [1, 2];
 	
 
 	var updateOrderTotal = function(){
@@ -196,15 +204,95 @@ var orderAPI = (function(){
 		$('.list-sub-btn').on('click', editOrder);
 	}
 
+	var initModalNavigation = function(){
+		var currentPage = $(this).attr('data-modal-page');
+		var direction = $(this).attr('data-direction');
+
+		if(direction === 'next' && currentPage < modalPages.length){
+			$('.modal-page-' + currentPage).hide();
+			$('.modal-page-' + (+currentPage+1)).show();
+			$('.modal-nav-back').show();
+			if((+currentPage+1) === modalPages[modalPages.length-1]){
+				$('.modal-nav-next').hide();
+				$('.modal-nav-complete').show();
+			}
+			$('[data-modal-page]').attr('data-modal-page', (+currentPage+1));
+		} else if(direction === "back" && (+currentPage-1) >= modalPages[0]){
+			$('.modal-nav-complete').hide();
+			$('.modal-page-' + currentPage).hide();
+			$('.modal-page-' + (+currentPage-1)).show();
+			if((+currentPage-1) === modalPages[0]){
+				$('.modal-nav-next').show();
+				$('.modal-nav-back').hide();
+			}
+			if((+currentPage-1) < modalPages.length){
+				$('.modal-nav-next').show();
+			}
+			$('[data-modal-page]').attr('data-modal-page', (+currentPage-1));
+		}
+	}
+
+	var updateDeliveryMethod = function(){
+		var method = $(this).val();
+		if(method === 'collection'){
+			$('.address-block').hide();
+			if(modalPages.length === 3){
+				modalPages.pop();
+				$('.modal-nav-complete').show();
+				$('.modal-nav-next').hide();
+			}
+		} else {
+			$('.address-block').show();
+			if(modalPages.length < 3){
+				modalPages.push(3);
+				$('.modal-nav-complete').hide();
+				$('.modal-nav-next').show();
+			}
+			
+		}
+		$('.order-for-value').html(method);
+		orderForm.orderFor = method;
+	}
+
+	var updateDeliveryTime = function(){
+		var timestamp = $(this).val();
+		orderForm.time = new Date(+timestamp);
+	}
+
+	var validateFormInput = function(){
+		var identifier = $(this).attr('data-order-form');
+		orderForm[identifier] = $(this).val();
+	}
+
+	var updatePaymentMethod = function(){
+		orderForm.paymentMethod = $(this).val();
+		if($(this).val() === "cc"){
+			$('.credit-card-block').show();
+		} else {
+			$('.credit-card-block').hide();
+		}
+		console.log(orderForm);
+	}
+
+
+	// Returns the start default collection/delivery timestamp (in ms)
 	var getDefaultOrderTime = function(){
-		return new Date((new Date().getTime() + (60*30*1000))).getTime();
+		var now = new Date();
+		var defaultTime = new Date(now.setMinutes(30));
+			now = new Date();
+		var thirtyMins = 30*60*1000;
+		if((defaultTime.getTime()-now.getTime()) < thirtyMins){
+			defaultTime.setMinutes(0);
+			defaultTime.setHours(defaultTime.getHours() + 1);
+		}
+		return defaultTime.getTime();
 	}
 
 
 	var formatOrderTime = function(time){
 		var date = new Date(time);
-		var hours = (date.getHours().length === 1) ? '0' + date.getHours() : date.getHours();
-		var mins = (date.getMinutes().length === 1) ? '0' + date.getMinutes() : date.getMinutes();
+		var hours = (date.getHours().toString().length === 1) ? '0' + date.getHours() : date.getHours();
+		var mins = (date.getMinutes().toString().length === 1) ? '0' + date.getMinutes() : date.getMinutes();
 		return hours + ':' + mins;
 	}
 
@@ -215,6 +303,8 @@ var orderAPI = (function(){
 			closingTime.setHours(22);
 			closingTime.setMinutes(0);
 		closingTime = closingTime.getTime();
+
+		orderForm.time = new Date(+defaultTime);
 
 		var oderTimesHTML = '';
 		while(defaultTime < closingTime){
@@ -284,5 +374,16 @@ var orderAPI = (function(){
 		       closeModal();
 		    }
 		});
+		$('input[name="payment-method"]').on('change', updatePaymentMethod);
+		$('input[name="order-for"]').on('change', updateDeliveryMethod);
+		$('.order-collect-at').on('change', updateDeliveryTime);
+		$('button[data-modal-page]').on('click', initModalNavigation);
+		$('.modal-input-text').on('keyup', validateFormInput);
 	});
+
+	return {
+		getOrderForm: function(){
+			console.log(orderForm);
+		}
+	}
 })();

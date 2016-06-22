@@ -63,62 +63,94 @@
 	</div>
 
 	
-	<div class="order-modal">
-		<div class="order-review">
-			<i class="fa fa-times close-modal"></i>
-			<h2> Review Order </h2>
+<div class="order-modal">
+	<div class="order-review">
+		<i class="fa fa-times close-modal"></i>
+		<h2> Review Order </h2>
 
-			<ul class="order-list">
-				
-			</ul>
+		<ul class="order-list">
+			
+		</ul>
 
-			<div class="order-modal-menu">
-				<form>
-				
+		<div class="order-modal-menu">
+			<form>	
+			  <div class="modal-page modal-page-1" data-modal-page="1">
 				<div class="order-form-block">
 					<p>Pay with:</p>
-						<input class="pay-card-radio" id="pay-card" type="radio" checked name="payment-method" value="pay-card">
+						<input class="pay-card-radio" id="pay-card" type="radio" checked name="payment-method" value="cc">
 						<label class="inline-block" for="pay-card">Credit Card</label>
-						<input class="pay-cash-radio" id="pay-cash" type="radio" name="payment-method" value="pay-cash">
+						<input class="pay-cash-radio" id="pay-cash" type="radio" name="payment-method" value="cash">
 						<label class="inline-block" for="pay-cash">Cash</label>
 				</div>
 
-				<!-- <div class="modal-coupon">
-					<span class="add-coupon-btn fake-link">Add Coupon</span>
-					<input type="text" class="coupon-code" name="coupon" placeholder="Coupon Code">
-				</div> -->
+				<div class="order-form-block credit-card-block">
+					<p>Credit Card Number:</p>
+					<input class="modal-input-text" data-order-form="ccno" type="number" name="user-cc">
 
+					<p>CSV:</p>
+					<input class="modal-input-text" data-order-form="csv" type="number" name="user-csv">
+				</div>
+
+				<div class="modal-coupon">
+					<span class="add-coupon-btn fake-link">Add Coupon</span>
+					<input class="modal-input-text coupon-code" data-order-form="coupon" type="text" name="coupon" placeholder="Coupon Code">
+				</div>
+			  </div> <!-- end modal page 1 -->
+				
+			  <div class="modal-page modal-page-2" data-modal-page="2">
 				<div class="order-form-block">
 					<p>Order For:</p>
-						<input class="for-collection-radio" id="for-collection" type="radio" checked name="order-for" value="for-collection">
+						<input class="for-collection-radio" id="for-collection" type="radio" checked name="order-for" value="collection">
 						<label class="inline-block" for="for-collection">Collection</label>
-						<input class="for-delivery-radio" id="for-delivery" type="radio" name="order-for" value="for-delivery">
+						<input class="for-delivery-radio" id="for-delivery" type="radio" name="order-for" value="delivery">
 						<label class="inline-block" for="for-delivery">Delivery</label>
 				</div>
 				
 				<div class="order-form-block">
-					<p>Collect at:</p>
+					<p><span class="order-for-value">Collection</span> at:</p>
 						<select class="order-collect-at" name="collect-at" id="collect-at">
 						</select>
 				</div>
 		
-
 				<div class="order-form-block">
 					<p>Name:</p>
-					<input type="text" name="user-name">
+					<input class="modal-input-text" data-order-form="name" type="text" name="user-name">
 
 					<p>Mobile:</p>
-					<input type="text" name="user-mobile">
+					<input class="modal-input-text" data-order-form="mobile" type="number" name="user-mobile">
+				</div>
+			 </div> <!-- end modal page 2 -->
+
+			 <div class="modal-page modal-page-3" data-modal-page="3">
+		
+				<div class="order-form-block address-block">
+					<p>Address:</p>
+					<input class="modal-input-text" data-order-form="address1" type="text" name="address-1">
+					<input class="modal-input-text address-line-2" data-order-form="address2" type="text" name="address-2">
 				</div>
 
-				</form>
-			</div>
+				<div class="final-order-details">
+					<p>
 
-			<div class="order-total-modal">
-				
-			</div>
+					</p>
+				</div>
+			 </div>
+
+		   </form>
+		</div>
+
+		<div class="order-total-modal">
+			
 		</div>
 	</div>
+
+	<div class="modal-nav">
+		<button class="modal-navigation-btn modal-nav-back btn hidden" data-modal-page="1" data-direction="back"><i class="fa fa-chevron-left"></i> Back</button>
+		<button class="modal-navigation-btn modal-nav-next btn green-btn" data-modal-page="1" data-direction="next">Next <i class="fa fa-chevron-right"></i></button>
+		<button class="modal-navigation-btn modal-nav-complete btn green-btn hidden" data-modal-page="1" data-direction="complete">Order <i class="fa fa-check"></i></button>
+	</div>
+
+</div> <!-- end modal -->
 
 </body>
 </html>
