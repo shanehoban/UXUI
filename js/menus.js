@@ -245,9 +245,12 @@ var menuAPI = (function(){
 		return ITEM;
 	}
 
-	return {
-		clearMenu: clearMenu,
-		getMenu: getMenu
-	};
+	$(document).on("menuSelected", function(e, eventData){
+		getMenu(eventData);
+	});
+
+	$(document).on("changeLocation", function(e){
+		clearMenu();
+	});
 })();
 
