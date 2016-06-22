@@ -128,8 +128,7 @@ var menuAPI = (function(){
 	};
 
 	var updateOrder = function(){
-		var updateData = {data: { method: 'add', item: ITEM }};
-		$(document).trigger("updateOrder", [updateData]);
+		$(document).trigger("updateOrder", [ITEM]);
 	}
 
 	var updateExtra = function(e){

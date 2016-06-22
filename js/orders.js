@@ -3,18 +3,6 @@ var orderAPI = (function(){
 
 	var ORDER = [];
 	var orderCounter = 0;
-	var orderTotal = 0;
-
-	var updateOrderTotal = function(){
-		orderTotal = 0;
-		for(var i=0; i < ORDER.length; i++){
-			var item = ORDER[i];
-			var itemTotal = 0;
-			itemTotal += item.Price;
-			itemTotal += item.extra.price;
-			orderTotal += (item.qty || 1) * itemTotal;
-		}
-	}
 
 	var findItemByCounterId = function(id){
 		for(var i = 0; i < ORDER.length; i++){
@@ -35,27 +23,34 @@ var orderAPI = (function(){
 	var updateOrderPanel = function(){
 
 		if(ORDER.length <= 0){
-			// hide
-			$('.order-panel').slideUp('fast');
-			$('body').css('padding-bottom', '0');
-			$('.order-price').hide();
-			$('.open-order').hide();
-			$('.order-price').html('');
+			hideOrderPanel();
 		} else {
-			//show
-			$('.order-panel .order-total').html('Total: &euro;' + getOrderTotal());
-			$('.order-price').html('&euro;' + getOrderTotal());
-			$('.open-order').prop("display","inline");
-			$('.order-price').show();
-			$('.open-order').show();
-			$('.order-panel').slideDown('fast');
-			$('body').css('padding-bottom', '50px');
+			showOrderPanel();
 		}
 	}
 
-	var updateOrder = function(e){
+	var hideOrderPanel = function(){
+		// hide
+		$('.order-panel').slideUp('fast');
+		$('body').css('padding-bottom', '0');
+		$('.order-price').hide();
+		$('.open-order').hide();
+		$('.order-price').html('');
+	}
 
-		var ITEM = e.data.item;
+	var showOrderPanel = function(){
+		//show
+		$('.order-panel .order-total').html('Total: &euro;' + getOrderTotal());
+		$('.order-price').html('&euro;' + getOrderTotal());
+		$('.open-order').prop("display","inline");
+		$('.order-price').show();
+		$('.open-order').show();
+		$('.order-panel').slideDown('fast');
+		$('body').css('padding-bottom', '50px');
+	}
+
+	var updateOrder = function(item){
+		var ITEM = item;
 		if(ITEM.qty==0){
 			console.log("Invalid order quantity");
 			return;
@@ -70,7 +65,6 @@ var orderAPI = (function(){
 			console.log('Removing from order');
 			removeFromOrder(ITEM);
 		}
-		updateOrderTotal();
 		updateOrderPanel();
 	}
 
@@ -119,6 +113,14 @@ var orderAPI = (function(){
 	}
 
 	var getOrderTotal = function(){
+		var orderTotal = 0;
+		for(var i=0; i < ORDER.length; i++){
+			var item = ORDER[i];
+			var itemTotal = 0;
+			itemTotal += item.Price;
+			itemTotal += item.extra.price;
+			orderTotal += (item.qty || 1) * itemTotal;
+		}
 		return orderTotal.toFixed(2);
 	}
 
@@ -146,20 +148,33 @@ var orderAPI = (function(){
 
 	var addSubListMenu = function(HTML, counterId){
 		HTML += '<div class="order-list-sub-menu">';
-			HTML += '<button class="order-list-sub-btn list-sub-btn" data-method="minus" data-item-id="' + counterId + '">-</button>';
-			HTML += '<button class="order-list-sub-btn list-sub-btn" data-method="add" data-item-id="' + counterId + '">+</button>';
-			HTML += '<button class="order-list-sub-btn list-sub-btn" data-method="delete" data-item-id="' + counterId + '"><i class="fa fa-trash"></i></button>';
+		HTML += '<button class="order-list-sub-btn list-sub-btn list-sub-btn-update" data-method="minus" data-item-id="' + counterId + '">-</button>';
+		HTML += '<button class="order-list-sub-btn list-sub-btn list-sub-btn-update" data-method="add" data-item-id="' + counterId + '">+</button>';
+		HTML += '<button class="order-list-sub-btn list-sub-btn list-sub-btn-delete" data-method="delete" data-item-id="' + counterId + '"><i class="fa fa-trash"></i></button>';
 		HTML += '</div>';
 		return HTML;
 	}
 
 	var showReviewModal = function(){
-
 		if(ORDER.length<=0){
 			$('.order-modal').hide();
 			return false;
 		}
+		var orderListHTML = generateOrderListHTML();
+		var totalHTML = 'Total: <span class="pull-right modal-total-price">&euro;' + getOrderTotal() + '</span>';
+		setModalHTML(orderListHTML, totalHTML);
+	}
 
+	var setModalHTML = function(orderListHTML, totalHTML){
+		$('.order-total-modal').html(totalHTML);
+		$('.order-list').html(orderListHTML);
+		$('.order-modal').fadeIn('fast');
+		$('.order-list-item').on('click', showSubListMenu);
+		$('.list-sub-btn-update').on('click', changeOrderFromModal);
+		$('.list-sub-btn-delete').on('click', deleteOrderFromModal);
+	}
+
+	var generateOrderListHTML = function(){
 		var orderListHTML = '';
 		for(var i=0; i<ORDER.length; i++){
 			var item = ORDER[i];
@@ -173,57 +188,35 @@ var orderAPI = (function(){
 			orderListHTML = addSubListMenu(orderListHTML, item.orderCounter);
 			orderListHTML += '</li>';
 		}
-		
-		var totalHTML = 'Total: <span class="pull-right modal-total-price">&euro;' + getOrderTotal() + '</span>';
-
-		$('.order-total-modal').html(totalHTML);
-		$('.order-list').html(orderListHTML);
-		$('.order-modal').fadeIn('fast');
-
-		$('.order-list-item').on('click', showSubListMenu);
-		$('.list-sub-btn').on('click', editOrder);
+		return orderListHTML;
 	}
 
-
-	var editOrder = function(){
+	var changeOrderFromModal = function(e){
 		var counterId = $(this).attr('data-item-id');
 		var method = $(this).attr('data-method');
-		
-				// returns item: item, and index of item in ORDER for deletion
-		var item = findItemByCounterId(counterId);
-		
-		var index = item.index;
-			item = item.item;
+		var item = JSON.parse(JSON.stringify(findItemByCounterId(counterId).item));
+		item.qty = method == "add" ? 1 : -1;
+		updateOrder(item);
+		updateOrderDisplay(counterId);
+	}
 
-		console.log(method, counterId);
-		console.log(item);
-
-		if(method === "delete"){
-			if(confirm('Are you sure you want to delete this item?')){
-				ORDER.remove(index);
-			} else {
-				return false;
-			}
-		} else if(method === "add"){
-			// add quantity
-			item.qty++;
-		} else if(method === "minus"){
-			// decrement quantity
-			if(item.qty-1 <= 0){
-				ORDER.remove(index);
-			} else {
-				item.qty--;
-			}
-		}
-
-		console.log(ORDER);
-
+	var updateOrderDisplay = function(counterId) {
 		// then update the UI with the new totals
-		updateOrderTotal();
 		updateOrderPanel();
 		showReviewModal();
 		// and again show the sub-dropdown menu
 		$('.order-list-item[data-item-id="'+counterId+'"]').click();
+	}
+
+	var deleteOrderFromModal = function(){
+		var counterId = $(this).attr('data-item-id');
+		var index = findItemByCounterId(counterId).index;
+		if(confirm('Are you sure you want to delete this item?')){
+			ORDER.remove(index);
+		} else {
+			return false;
+		}
+		updateOrderDisplay(counterId);
 	}
 
 
