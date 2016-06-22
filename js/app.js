@@ -1,4 +1,5 @@
 var API_URL =  API_URL || 'http://127.0.0.1:1337/' ;
+var isMobile = false;
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to) {

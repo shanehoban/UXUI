@@ -15,6 +15,7 @@ var locationAPI = (function(){
 
 	var setLocation = function(){
 		hideLocations();
+		$('.desktop-column').removeClass('hidden');
 		$('.location-name').html($(this).attr("location"));
 		$('.location-name').prop("display","inline");
 		$('.change-location').prop("display","inline");
@@ -25,6 +26,7 @@ var locationAPI = (function(){
 
 	var changeLocation = function(){
 		showLocations();
+		$('.desktop-column').addClass('hidden');
 		$('.location-name').hide();
 		$('.change-location').hide();
 		$('.order-price').hide();

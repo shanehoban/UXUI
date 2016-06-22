@@ -7,6 +7,8 @@
 	
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
 
+	<link rel="stylesheet" href="css/menu.css">
+	<link rel="stylesheet" href="css/order.css">
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/desktop.css">
 	<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
@@ -52,9 +54,79 @@
 				<div class="row menu-list">
 				</div>
 
-				<div class="row desktop-row">
-		
+
+				<div class="row desktop-column hidden">
+					<div class="menu-category">
+						<div class="category-title">Review Order</div>
+
+						<ul class="order-list desktop-order-list">
+							
+						</ul>
+						<div class="order-total-modal desktop-order-total"></div>
+						
+							<form class="desktop-order-form">	
+							  
+								<div class="order-form-block">
+									<p>Pay with:</p>
+										<input class="pay-card-radio" id="pay-card" type="radio" checked name="payment-method" value="cc">
+										<label class="inline-block" for="pay-card">Credit Card</label>
+										<input class="pay-cash-radio" id="pay-cash" type="radio" name="payment-method" value="cash">
+										<label class="inline-block" for="pay-cash">Cash</label>
+								</div>
+
+								<div class="order-form-block credit-card-block">
+									<p>Credit Card Number:</p>
+									<input class="modal-input-text" data-order-form="ccno" type="number" name="user-cc">
+
+									<p>CSV:</p>
+									<input class="modal-input-text" data-order-form="csv" type="number" name="user-csv">
+								</div>
+
+								<div class="modal-coupon">
+									<span class="add-coupon-btn fake-link">Add Coupon</span>
+									<input class="modal-input-text coupon-code" data-order-form="coupon" type="text" name="coupon" placeholder="Coupon Code">
+								</div>
+								
+							 <div class="order-form-block">
+									<p>Order For:</p>
+										<input class="for-collection-radio" id="for-collection" type="radio" checked name="order-for" value="collection">
+										<label class="inline-block" for="for-collection">Collection</label>
+										<input class="for-delivery-radio" id="for-delivery" type="radio" name="order-for" value="delivery">
+										<label class="inline-block" for="for-delivery">Delivery</label>
+							</div>
+								
+								<div class="order-form-block">
+									<p><span class="order-for-value">Collection</span> at:</p>
+										<select class="order-collect-at" name="collect-at" id="collect-at">
+										</select>
+								</div>
+						
+								<div class="order-form-block">
+									<p>Name:</p>
+									<input class="modal-input-text" data-order-form="name" type="text" name="user-name">
+
+									<p>Mobile:</p>
+									<input class="modal-input-text" data-order-form="mobile" type="number" name="user-mobile">
+								</div>
+
+								<div class="order-form-block address-block hidden">
+									<p>Delivery Address:</p>
+									<input class="modal-input-text" data-order-form="address1" type="text" name="address-1">
+									<input class="modal-input-text address-line-2" data-order-form="address2" type="text" name="address-2">
+								</div>
+
+						   </form> <!-- end .desktop-form -->
+						
+						<div class="order-total-modal desktop-order-total"></div>
+
+						<hr class="place-order-hr">
+
+						<button class="btn green-btn desktop-place-order" data-modal-page="1" data-direction="complete">Place Order <i class="fa fa-check"></i></button>
+
+					</div>
+
 				</div> <!-- end desktop row -->
+
 
 			</div>  <!-- end desktop wrapper -->
 

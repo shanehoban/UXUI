@@ -129,9 +129,7 @@ var menuAPI = (function(){
 	var createExtrasHtml = function(index){
 		var extraHtml = '<input class="extra-radio" id="label' + (++labelCount) + '" type="radio" ' + (index===0 ? 'checked' : '') + ' name="side-dish" value="' + extrasKeys[index] + '">';
 		extraHtml += '<label for="label' + labelCount + '">' + extrasKeys[index].replace(/-/g, ' ');
-		if(extras[extrasKeys[index]] !== 0){
-	  		extraHtml +=  '<span class="extras-price">&euro;' + extras[extrasKeys[index]].toFixed(2) + '</span>';
-	  	} 
+	  	extraHtml +=  '<span class="extras-price">&euro;' + extras[extrasKeys[index]].toFixed(2) + '</span>';
 	  	extraHtml += '</label>';
 	  	return extraHtml;
 	}

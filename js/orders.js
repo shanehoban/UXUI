@@ -157,6 +157,17 @@ var orderAPI = (function(){
 		
 	}
 
+	$(document).on("updateOrder", function(e, eventData){
+		updateOrder(eventData);
+		updateDesktopUI();
+	});
+
+	$(document).on("changeLocation", function(e){
+		clearOrder();
+		hideOrderPanel();
+	});
+
+
 	var addSubListMenu = function(HTML, counterId){
 		HTML += '<div class="order-list-sub-menu">';
 		HTML += '<button class="order-list-sub-btn list-sub-btn list-sub-btn-update" data-method="minus" data-item-id="' + counterId + '">-</button>';
@@ -166,24 +177,35 @@ var orderAPI = (function(){
 		return HTML;
 	}
 
-	var showReviewModal = function(){
+	var checkOrderLength = function(){
 		if(ORDER.length<=0){
 			$('.order-modal').hide();
+			$('.desktop-order-total').hide();
 			return false;
+		} else {
+			return true;
 		}
-		var orderListHTML = generateOrderListHTML();
-		var totalHTML = 'Total: <span class="pull-right modal-total-price">&euro;' + getOrderTotal() + '</span>';
-		setModalHTML(orderListHTML, totalHTML);
-		populateOrderTimes();
 	}
 
-	var setModalHTML = function(orderListHTML, totalHTML){
+	var showReviewModal = function(){
+		setOrderHTML();
+		if(!checkOrderLength()){
+			return false;
+		}
+		populateOrderTimes();
+		$('.order-modal').fadeIn('fast');
+	}
+
+	var setOrderHTML = function(){
+		var orderListHTML = generateOrderListHTML();
+		var totalHTML = 'Total: <span class="pull-right modal-total-price">&euro;' + getOrderTotal() + '</span>';
 		$('.order-total-modal').html(totalHTML);
 		$('.order-list').html(orderListHTML);
-		$('.order-modal').fadeIn('fast');
 		$('.order-list-item').on('click', showSubListMenu);
 		$('.list-sub-btn-update').on('click', changeOrderFromModal);
 		$('.list-sub-btn-delete').on('click', deleteOrderFromModal);
+		$('.desktop-order-total').show();
+		checkOrderLength();
 	}
 
 	var generateOrderListHTML = function(){
@@ -203,40 +225,36 @@ var orderAPI = (function(){
 		return orderListHTML;
 	}
 
+	var updateDesktopUI = function(){
+		setOrderHTML();
+	}
+
 	var initModalNavigation = function(){
 		var currentPage = $(this).attr('data-modal-page');
 		var direction = $(this).attr('data-direction');
 
 		if(direction === 'next' && currentPage < modalPages.length){
-			pageForward(currentPage, direction);
+			$('.modal-page-' + currentPage).hide();
+			$('.modal-page-' + (+currentPage+1)).show();
+			$('.modal-nav-back').show();
+			if((+currentPage+1) === modalPages[modalPages.length-1]){
+				$('.modal-nav-next').hide();
+				$('.modal-nav-complete').show();
+			}
+			$('[data-modal-page]').attr('data-modal-page', (+currentPage+1));
 		} else if(direction === "back" && (+currentPage-1) >= modalPages[0]){
-			pageBack(currentPage, direction);
+			$('.modal-nav-complete').hide();
+			$('.modal-page-' + currentPage).hide();
+			$('.modal-page-' + (+currentPage-1)).show();
+			if((+currentPage-1) === modalPages[0]){
+				$('.modal-nav-next').show();
+				$('.modal-nav-back').hide();
+			}
+			if((+currentPage-1) < modalPages.length){
+				$('.modal-nav-next').show();
+			}
+			$('[data-modal-page]').attr('data-modal-page', (+currentPage-1));
 		}
-	}
-
-	var pageForward = function(currentPage, direction){
-		$('.modal-page-' + currentPage).hide();
-		$('.modal-page-' + (+currentPage+1)).show();
-		$('.modal-nav-back').show();
-		if((+currentPage+1) === modalPages[modalPages.length-1]){
-			$('.modal-nav-next').hide();
-			$('.modal-nav-complete').show();
-		}
-		$('[data-modal-page]').attr('data-modal-page', (+currentPage+1));
-	}
-
-	var pageBack = function(currentPage, direction){
-		$('.modal-nav-complete').hide();
-		$('.modal-page-' + currentPage).hide();
-		$('.modal-page-' + (+currentPage-1)).show();
-		if((+currentPage-1) === modalPages[0]){
-			$('.modal-nav-next').show();
-			$('.modal-nav-back').hide();
-		}
-		if((+currentPage-1) < modalPages.length){
-			$('.modal-nav-next').show();
-		}
-		$('[data-modal-page]').attr('data-modal-page', (+currentPage-1));
 	}
 
 	var updateDeliveryMethod = function(){
@@ -286,7 +304,7 @@ var orderAPI = (function(){
 	var getDefaultOrderTime = function(){
 		var now = new Date();
 		var defaultTime = new Date(now.setMinutes(30));
-		now = new Date();
+			now = new Date();
 		var thirtyMins = 30*60*1000;
 		if((defaultTime.getTime()-now.getTime()) < thirtyMins){
 			defaultTime.setMinutes(0);
@@ -337,7 +355,10 @@ var orderAPI = (function(){
 		updateOrderPanel();
 		showReviewModal();
 		// and again show the sub-dropdown menu
-		$('.order-list-item[data-item-id="'+counterId+'"]').click();
+		$('.order-list-item[data-item-id="'+counterId+'"]').find('.order-list-sub-menu').stop().slideDown('fast', function(){
+			$(this).parent().parent().find('.fa').toggleClass('fa-pencil');
+			$(this).parent().parent().find('.fa').toggleClass('fa-chevron-down');
+		});
 	}
 
 	var deleteOrderFromModal = function(){
@@ -373,14 +394,13 @@ var orderAPI = (function(){
 		$('.order-collect-at').on('change', updateDeliveryTime);
 		$('button[data-modal-page]').on('click', initModalNavigation);
 		$('.modal-input-text').on('keyup', validateFormInput);
+
+		populateOrderTimes();
 	});
 
-	$(document).on("updateOrder", function(e, eventData){
-		updateOrder(eventData);
-	});
-
-	$(document).on("changeLocation", function(e){
-		clearOrder();
-		hideOrderPanel();
-	});
+	return {
+		getOrderForm: function(){
+			console.log(orderForm);
+		}
+	}
 })();
