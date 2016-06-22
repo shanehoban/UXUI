@@ -1,4 +1,5 @@
 @green: #036903;
+@blue: #2859e2;
 
 	*{
 		margin: 0;
@@ -93,8 +94,11 @@
 
 	input[type="radio"]:checked + label{
 		.transition;
-		 color: blue;
-		 background: #e1faff;
+		 color: #ffffff;
+    	 background: #233871;
+    	 & .extras-price{
+    	 	color: #b5b5b5;
+    	 }
 	}
 
 
@@ -321,15 +325,21 @@
 	}
 
 	.qty-btn {
+		.transition;
 	    background: #2859e2;
 	    padding: 5px 7px 4px 7px;
 	    font-size: 14px;
 	    border-radius: 100%;
 	    color: rgba(243, 243, 255, 0.95);
 	    text-shadow: -1px 1px 0 rgba(0, 0, 0, 0.73);
+
+	    &:hover{
+	    	background: #24439c;
+	    }
 	}
 
 	.add-to-cart-btn {
+		.transition;
 	    padding: 7px 13px;
 	    vertical-align: text-bottom;
 	    margin-bottom: -3px;
@@ -337,10 +347,14 @@
 	    border-radius: 2px;
 	    border: 0;
 	    font-size: 12px;
-	    background: #2859e2;
+	    background: @blue;
 	    font-family: 'Open Sans';
 	    color: #fff;
 	    text-shadow: -1px 1px 0 #19337d;
+
+	    &:hover{
+	    	background: #24439c;
+	    }
 	}
 
 	.hide-sub-menu-btn {
@@ -498,6 +512,10 @@
 	    margin-bottom: 5px;
 	    position: relative;
 
+	    &:hover .order-list-title {
+		    text-decoration: underline;
+		}
+
 	    &:last-of-type{
 	    	border-bottom: 0;
 	    }
@@ -543,7 +561,11 @@
 	    margin: 0 1%;
 	    display: inline-block;
 	    width: 30%;
-	    border-radius: 3px;
+	    border-radius: 2px;
+
+	    &:hover{
+    		background: #cccccc;
+	    }
 	}
 
 	.order-list-sub-menu {
