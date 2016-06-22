@@ -145,6 +145,11 @@ var orderAPI = (function(){
 		updateOrder(eventData);
 	});
 
+	$(document).on("changeLocation", function(e){
+		clearOrder();
+		hideOrderPanel();
+	});
+
 
 	var addSubListMenu = function(HTML, counterId){
 		HTML += '<div class="order-list-sub-menu">';

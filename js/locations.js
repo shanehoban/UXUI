@@ -25,6 +25,10 @@ var locationAPI = (function(){
 
 	var changeLocation = function(){
 		showLocations();
+		$('.location-name').hide();
+		$('.change-location').hide();
+		$('.order-price').hide();
+		$('.open-order').hide();
 		$(document).trigger("changeLocation");
 	};
 
