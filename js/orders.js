@@ -55,6 +55,7 @@ var orderAPI = (function(){
 			$('.order-panel .order-total').html('Total: &euro;' + getOrderTotal());
 			$('.order-price').html('&euro;' + getOrderTotal()).show();
 			$('.open-order').prop("display","inline");
+			$('.order-price').show();
 			$('.open-order').show();
 			$('.order-panel').slideDown('fast');
 			$('body').css('padding-bottom', '50px');
@@ -146,6 +147,10 @@ var orderAPI = (function(){
 		});
 		
 	}
+
+	$(document).on("updateOrder", function(e, eventData){
+		updateOrder(eventData);
+	});
 
 
 	var addSubListMenu = function(HTML, counterId){
@@ -280,8 +285,4 @@ var orderAPI = (function(){
 		    }
 		});
 	});
-
-	return {
-		updateOrder: updateOrder
-	}
 })();
