@@ -5,6 +5,15 @@ var orderAPI = (function(){
 	var orderCounter = 0;
 	var orderTotal = 0;
 
+	// order form defaults
+	var orderForm = {
+		payWith: 'cc',
+		coupon: '',
+		orderFor: 'collection',
+		collectAt: ''
+	};
+	
+
 	var updateOrderTotal = function(){
 		orderTotal = 0;
 		for(var i=0; i < ORDER.length; i++){
@@ -44,7 +53,7 @@ var orderAPI = (function(){
 		} else {
 			//show
 			$('.order-panel .order-total').html('Total: &euro;' + getOrderTotal());
-			$('.order-price').html('&euro;' + getOrderTotal());
+			$('.order-price').html('&euro;' + getOrderTotal()).show();
 			$('.open-order').prop("display","inline");
 			$('.open-order').show();
 			$('.order-panel').slideDown('fast');
@@ -175,10 +184,42 @@ var orderAPI = (function(){
 		$('.order-list').html(orderListHTML);
 		$('.order-modal').fadeIn('fast');
 
+		populateOrderTimes();
+
+		// Sub list listeners
 		$('.order-list-item').on('click', showSubListMenu);
 		$('.list-sub-btn').on('click', editOrder);
 	}
 
+	var getDefaultOrderTime = function(){
+		return new Date((new Date().getTime() + (60*30*1000))).getTime();
+	}
+
+
+	var formatOrderTime = function(time){
+		var date = new Date(time);
+		var hours = (date.getHours().length === 1) ? '0' + date.getHours() : date.getHours();
+		var mins = (date.getMinutes().length === 1) ? '0' + date.getMinutes() : date.getMinutes();
+		return hours + ':' + mins;
+	}
+
+
+	var populateOrderTimes = function(){
+		var defaultTime = getDefaultOrderTime();
+		var closingTime = new Date();
+			closingTime.setHours(22);
+			closingTime.setMinutes(0);
+		closingTime = closingTime.getTime();
+
+		var oderTimesHTML = '';
+		while(defaultTime < closingTime){
+			oderTimesHTML += '<option value="' + defaultTime + '">' + formatOrderTime(defaultTime) + '</option>';
+			defaultTime += (60*15*1000);
+		}
+
+		$('.order-collect-at').html(oderTimesHTML);
+	}
+	
 
 	var editOrder = function(){
 		var counterId = $(this).attr('data-item-id');

@@ -73,18 +73,45 @@
 			</ul>
 
 			<div class="order-modal-menu">
-				<p>Pay with:</p>
 				<form>
-					<input class="pay-card-radio" id="pay-card" type="radio" checked name="payment-method" value="pay-card">
-					<label class="inline-block" for="pay-card">Credit Card</label>
-					<input class="pay-cash-radio" id="pay-cash" type="radio" name="payment-method" value="pay-cash">
-					<label class="inline-block" for="pay-cash">Cash</label>
-				</form>
+				
+				<div class="order-form-block">
+					<p>Pay with:</p>
+						<input class="pay-card-radio" id="pay-card" type="radio" checked name="payment-method" value="pay-card">
+						<label class="inline-block" for="pay-card">Credit Card</label>
+						<input class="pay-cash-radio" id="pay-cash" type="radio" name="payment-method" value="pay-cash">
+						<label class="inline-block" for="pay-cash">Cash</label>
+				</div>
 
-				<div class="modal-coupon">
+				<!-- <div class="modal-coupon">
 					<span class="add-coupon-btn fake-link">Add Coupon</span>
 					<input type="text" class="coupon-code" name="coupon" placeholder="Coupon Code">
+				</div> -->
+
+				<div class="order-form-block">
+					<p>Order For:</p>
+						<input class="for-collection-radio" id="for-collection" type="radio" checked name="order-for" value="for-collection">
+						<label class="inline-block" for="for-collection">Collection</label>
+						<input class="for-delivery-radio" id="for-delivery" type="radio" name="order-for" value="for-delivery">
+						<label class="inline-block" for="for-delivery">Delivery</label>
 				</div>
+				
+				<div class="order-form-block">
+					<p>Collect at:</p>
+						<select class="order-collect-at" name="collect-at" id="collect-at">
+						</select>
+				</div>
+		
+
+				<div class="order-form-block">
+					<p>Name:</p>
+					<input type="text" name="user-name">
+
+					<p>Mobile:</p>
+					<input type="text" name="user-mobile">
+				</div>
+
+				</form>
 			</div>
 
 			<div class="order-total-modal">

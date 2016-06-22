@@ -133,7 +133,6 @@ var menuAPI = (function(){
 	}
 
 	var updateExtra = function(e){
-		console.log(extrasKeys);
 		setExtraValue($(this).val());
 	}
 
