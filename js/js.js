@@ -10,7 +10,7 @@ var setLocation = function(locationValue){
 	$('.location-name').show();
 	$('.change-location').show();
 	//do stuff for menu
-	menuAPI.getMenu();
+	menuAPI.getMenu("thaiRestaurantMenu");
 	return false;
 }
 

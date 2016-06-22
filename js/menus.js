@@ -211,9 +211,10 @@ var menuAPI = (function(){
 		element.removeClass('shown');
 	}
 
-	var getMenu = function(){
+	var getMenu = function(menuName){
+		var address = API_URL + 'menus/' + menuName + '.json';
 		if(self.fetch){
-			fetch(API_URL + 'menus/thaiRestaurantMenu.json').then(function(data){
+			fetch(address).then(function(data){
 				return data.json();
 			}).then(function(data){
 				console.log("Fetched: ", data);
@@ -222,7 +223,7 @@ var menuAPI = (function(){
 		} else {
 			// ajax fallback
 			$.ajax({
-				url: API_URL + 'menus/' +  menu,
+				url: address,
 				method: 'GET',
 				success: function(data){
 					data = JSON.parse(data);

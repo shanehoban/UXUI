@@ -4,8 +4,8 @@ var locationAPI = (function(){
 	var populateLocations = function(locations){
 		var locationHTML = '';
 		for(var i = 0; i < locations.length; i++){
-			locationHTML += '<li><a class="block-link" onclick="setLocation(\''+locations[i]+'\')">';
-			locationHTML += locations[i];
+			locationHTML += '<li><a class="block-link" onclick="setLocation(\''+locations[i].location+'\')">';
+			locationHTML += locations[i].location;
 			locationHTML += '<i class="fa fa-chevron-right"></i></a></li>';
 		}
 		$('.location-list').html(locationHTML);
