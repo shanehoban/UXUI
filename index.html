@@ -57,7 +57,7 @@
 
 				<div class="row desktop-column hidden">
 					<div class="menu-category">
-						<div class="category-title">Review Order</div>
+						<div class="menu-header">Review Order</div>
 
 						<ul class="order-list desktop-order-list">
 							
@@ -77,9 +77,17 @@
 								<div class="order-form-block credit-card-block">
 									<p>Credit Card Number:</p>
 									<input class="modal-input-text" data-order-form="ccno" type="number" name="user-cc">
-
-									<p>CSV:</p>
-									<input class="modal-input-text" data-order-form="csv" type="number" name="user-csv">
+									
+									<div class="cc-sub-block">
+										<div class="exp-block">
+											<p>Expiry: <small>MM / YY</small></p>
+											<input class="modal-input-text exp-input" data-order-form="exp" type="text" name="user-exp" placeholder="MM / YY">
+										</div>
+										<div class="csv-block">
+											<p>CSV:</p>
+											<input class="modal-input-text csv-input" data-order-form="csv" type="number" name="user-csv">
+										</div>
+									</div>
 								</div>
 
 								<div class="modal-coupon">
@@ -105,14 +113,14 @@
 									<p>Name:</p>
 									<input class="modal-input-text" data-order-form="name" type="text" name="user-name">
 
-									<p>Mobile:</p>
+									<p>Mobile No:</p>
 									<input class="modal-input-text" data-order-form="mobile" type="number" name="user-mobile">
 								</div>
 
 								<div class="order-form-block address-block hidden">
 									<p>Delivery Address:</p>
-									<input class="modal-input-text" data-order-form="address1" type="text" name="address-1">
-									<input class="modal-input-text address-line-2" data-order-form="address2" type="text" name="address-2">
+									<input class="modal-input-text" data-order-form="address1" type="text" name="address-1" placeholder="Address Line 1">
+									<input class="modal-input-text address-line-2" data-order-form="address2" type="text" name="address-2" placeholder="Address Line 2">
 								</div>
 
 						   </form> <!-- end .desktop-form -->
@@ -121,7 +129,7 @@
 
 						<hr class="place-order-hr">
 
-						<button class="btn green-btn desktop-place-order" data-modal-page="1" data-direction="complete">Place Order <i class="fa fa-check"></i></button>
+						<button class="btn green-btn desktop-place-order place-order-btn" data-modal-page="1" data-direction="complete">Place Order <i class="fa fa-check"></i></button>
 
 					</div>
 
@@ -163,9 +171,16 @@
 					<div class="order-form-block credit-card-block">
 						<p>Credit Card Number:</p>
 						<input class="modal-input-text" data-order-form="ccno" type="number" name="user-cc">
-
-						<p>CSV:</p>
-						<input class="modal-input-text" data-order-form="csv" type="number" name="user-csv">
+						<div class="cc-sub-block">
+							<div class="exp-block">
+								<p>Expiry: <small>MM / YY</small></p>
+								<input class="modal-input-text exp-input" data-order-form="exp" type="text" name="user-exp" placeholder="MM / YY">
+							</div>
+							<div class="csv-block">
+								<p>CSV:</p>
+								<input class="modal-input-text csv-input" data-order-form="csv" type="number" name="user-csv">
+							</div>
+						</div>
 					</div>
 
 					<div class="modal-coupon">
@@ -193,7 +208,7 @@
 						<p>Name:</p>
 						<input class="modal-input-text" data-order-form="name" type="text" name="user-name">
 
-						<p>Mobile:</p>
+						<p>Mobile No:</p>
 						<input class="modal-input-text" data-order-form="mobile" type="number" name="user-mobile">
 					</div>
 				 </div> <!-- end modal page 2 -->
@@ -224,7 +239,7 @@
 		<div class="modal-nav">
 			<button class="modal-navigation-btn modal-nav-back btn hidden" data-modal-page="1" data-direction="back"><i class="fa fa-chevron-left"></i> Back</button>
 			<button class="modal-navigation-btn modal-nav-next btn green-btn" data-modal-page="1" data-direction="next">Next <i class="fa fa-chevron-right"></i></button>
-			<button class="modal-navigation-btn modal-nav-complete btn green-btn hidden" data-modal-page="1" data-direction="complete">Order <i class="fa fa-check"></i></button>
+			<button class="modal-navigation-btn modal-nav-complete btn green-btn place-order-btn hidden" data-modal-page="1" data-direction="complete">Order <i class="fa fa-check"></i></button>
 		</div>
 	</div> <!-- end desktop wrapper -->
 </div> <!-- end modal -->

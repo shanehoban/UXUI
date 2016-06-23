@@ -7,16 +7,8 @@
 	    margin: 15px;
 	    padding: 15px;
 	    font-size: 16px;
-	    border-radius: 10px;
+	    border-radius: 6px;
 	    box-shadow:0 8px 6px -6px rgba(0,0,0,.25);
-	}
-
-	.category-title {
-	    font-weight: 700;
-	    font-size: 19px;
-	    border-bottom: 1px solid;
-	    margin-bottom: 6px;
-	    color: rgb(58, 57, 57);
 	}
 
 	.menu-item {
@@ -35,12 +27,10 @@
 	}
 
 	.menu-item-title {
-		font-family: 'Roboto';
+		font-family: @defaultFont;
+		font-size: 18px;
 	    max-width: 75%;
-	    color: #b72c02;
-	    text-shadow: -1px 1px 0 white;
-	    font-weight: bold;
-	    font-size: 16px;
+	    color: #C62C02;    
 	}
 
 	.menu-item-price {
@@ -48,6 +38,7 @@
 	    top: 0;
 	    right: 0;
 	    display: inline-block;
+	    font-family: @defaultFont;
 	    width: 18%;
 	    color: @green;
 	    font-weight: bold;
@@ -56,31 +47,33 @@
 	}
 
 	.menu-item-description {
+		font-family: @defaultFont;
 	    color: #292929;
 	    font-size: 14px;
+	    margin: 5px 0;
 	}
 
 	.item-sub-menu {
 		display: none;
 	    margin-top: 8px;
-	    border-left: 4px solid #b72c02;
-	    padding-left: 10px;
+	    border-left: 3px solid #b72c02;
+	    padding-left: 7px;
 	}
 
 	.sub-item-img{
-		width: 40%;
+		width: 34.5%;
 	}
 
 	.sub-item-meta {
 	    display: inline-block;
 	    vertical-align: top;
-	    width: 58%;
+	    width: 65%;
 	    margin-bottom: 10px;
 	}
 
 	.sub-item-form {
 	    font-family: arial;
-	    margin-left: 5px;
+	    margin-left: 7px;
 	}
 
 	.sub-item-form input {

@@ -21,7 +21,7 @@
 
 		.content .desktop-wrapper{
 			padding: 35px;
-			padding-bottom: 70px;
+			padding-bottom: 75px;
 			background: rgba(255,255,255, 0.3);
 			height: 100%;
 			border-left: 2px solid green;
@@ -55,10 +55,6 @@
 			width: 30%;
 		}
 
-		.sub-item-form {
-		    margin-left: 15px;
-		}
-
 		:not(.order-modal) input[type=radio]+label {
 		    font-family: arial;
 		    font-size: 15px;
@@ -71,6 +67,10 @@
 			text-align: center;
 		}
 
+		.sub-item-meta{
+			margin-bottom: 13px;
+		}
+
 		.extras-price {
 		    font-family: arial;
 		    position: relative;
@@ -78,19 +78,12 @@
 		}
 
 		.add-to-cart-btn{
-			width: 46%;
 		    font-size: 15px;
 		    font-weight: bold;
-		    margin-top: 9px;
-		    position: relative;
-		    top: 2px;
 		}
 
 		.hide-sub-menu-btn {
-		    position: relative;
-		    top: -4px;
 		    font-size: 12px;
-		    margin-left: 12px;
 		}
 
 		.order-list-item{
@@ -143,6 +136,43 @@
 		.item-order-quantity{
 			width: 25%;
 		}
+		
+
+		// order form for desktop styling
+
+		.desktop-order-form {
+
+			input[type=number],
+			input[type=text]{
+				.transition;
+			    padding: 7px 5px;
+			    border: 0;
+			    border: 1px solid gray;
+			    font-size: 12px;
+			    width: 94%;
+			    margin-top: 3px;
+			    border-radius: 1px;
+			    color: #272727;
+			    letter-spacing: 0.5px;
+
+			    &:active,
+			    &:focus{
+			    	outline: 0;
+			    	border: 1px solid @blue;
+			    }
+			}
+
+			p{
+				font-size: 14px;
+			    margin: 5px 0 3px 0;
+			}
+
+			.order-form-block{
+				margin: 10px 0;
+			}
+
+		}
+
 
 	
 		// Importants, for desktop/mobile jQuery issues
@@ -154,6 +184,11 @@
 
 		.open-order{
 			cursor: default !important;
+		}
+
+		.exp-input,
+		.csv-input {
+		    letter-spacing: 3px !important;
 		}
 
 	}

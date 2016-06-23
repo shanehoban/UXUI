@@ -47,7 +47,7 @@ var menuAPI = (function(){
 	}
 
 	var createMenuCategoryTitleHTML = function(title){
-		var categoryTitleHTML = '<div class="category-title">';
+		var categoryTitleHTML = '<div class="menu-header">';
 		categoryTitleHTML += title;
 		categoryTitleHTML += '</div>';
 		return categoryTitleHTML;

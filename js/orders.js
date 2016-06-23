@@ -2,9 +2,10 @@
 var orderAPI = (function(){
 
 	var ORDER = [];
+	var COUPON_LENGTH = 8;
 	var orderCounter = 0;
 
-	// order form defaults
+	// order form defaults - to send to server
 	var orderForm = {
 		paymentMethod: 'cc',
 		coupon: '',
@@ -13,11 +14,20 @@ var orderAPI = (function(){
 		name: '',
 		mobile: '',
 		ccno: '',
+		exp: '',
 		csv: '',
 		address1: '',
-		address2: ''
+		address2: '',
+		orderTotal: 0
 	};
 
+	/*
+		8, 46: backspace, delete
+		37-40: left, up, right, down arrow keys
+	*/
+	var allowedKeyCodes = [8, 46, 37, 38, 39, 40];
+
+	// For dynamically extending the modal pages, push/pop as needed
 	var modalPages = [1, 2];
 
 	var findItemByCounterId = function(id){
@@ -74,7 +84,6 @@ var orderAPI = (function(){
 		ITEM.qty = ITEM.qty || 1;
 		ITEM.orderCounter = orderCounter; // unique identifier for object in order
 		if(ITEM.qty>0){
-			console.log('Adding to order');
 			addToOrder(JSON.parse(JSON.stringify(ITEM)));
 			// ORDER.push(JSON.parse(JSON.stringify(ITEM)));
 		} else {
@@ -137,6 +146,10 @@ var orderAPI = (function(){
 			itemTotal += item.extra.price;
 			orderTotal += (item.qty || 1) * itemTotal;
 		}
+		if(orderForm.coupon && orderForm.coupon !== ''){
+			orderTotal = orderTotal*(1-(orderForm.coupon/100));
+		}
+		orderForm.orderTotal = orderTotal;
 		return orderTotal.toFixed(2);
 	}
 
@@ -197,9 +210,16 @@ var orderAPI = (function(){
 
 	var setOrderHTML = function(){
 		var orderListHTML = generateOrderListHTML();
-		var totalHTML = 'Total: <span class="pull-right modal-total-price">&euro;' + getOrderTotal() + '</span>';
+		var totalHTML = 'Total: <span class="pull-right modal-total-price"><span class="coupon-applied"></span> &euro;' + getOrderTotal() + '</span>';
 		$('.order-total-modal').html(totalHTML);
 		$('.order-list').html(orderListHTML);
+		
+		if(orderForm.coupon && orderForm.coupon !== ''){
+			$('.coupon-applied').html('Coupon Applied (' + orderForm.coupon + '%)');
+		} else {
+			$('.coupon-applied').html('');
+		}
+
 		$('.order-list-item').on('click', showSubListMenu);
 		$('.list-sub-btn-update').on('click', changeOrderFromModal);
 		$('.list-sub-btn-delete').on('click', deleteOrderFromModal);
@@ -280,7 +300,7 @@ var orderAPI = (function(){
 
 	var updateDeliveryTime = function(){
 		var timestamp = $(this).val();
-		orderForm.time = new Date(+timestamp);
+		orderForm.time = new Date(+timestamp).getTime();
 	}
 
 	var validateFormInput = function(){
@@ -328,7 +348,7 @@ var orderAPI = (function(){
 			closingTime.setMinutes(0);
 		closingTime = closingTime.getTime();
 
-		orderForm.time = new Date(+defaultTime);
+		orderForm.time = new Date(+defaultTime).getTime();
 
 		var oderTimesHTML = '';
 		while(defaultTime < closingTime){
@@ -349,15 +369,20 @@ var orderAPI = (function(){
 		updateOrderDisplay(counterId);
 	}
 
-	var updateOrderDisplay = function(counterId) {
-		// then update the UI with the new totals
+	var refreshUI = function(){
 		updateOrderPanel();
 		showReviewModal();
+	}
+
+	var updateOrderDisplay = function(counterId) {
+		// then update the UI with the new totals
+		refreshUI();
 		// and again show the sub-dropdown menu
 		$('.order-list-item[data-item-id="'+counterId+'"]')
 			.find('.order-list-sub-menu')
 			.css({'display': 'flex'})
-			.parent().parent().find('.fa')
+			.parent()
+			.find('.fa')
 				.toggleClass('fa-pencil')
 				.toggleClass('fa-chevron-down');
 	}
@@ -378,6 +403,101 @@ var orderAPI = (function(){
 		$('.order-modal').fadeOut('fast');
 	}
 
+	var validateExpiryDate = function(e){
+		var val = $(this).val();
+			val = val.replace(/[^0-9\/]/g, ''); // removes all text values, except slash
+			$(this).val(val); // replace regardless of rest of logic (remove letters etc)
+		if(allowedKeyCodes.indexOf(e.keyCode) !== -1 || val.length < 2){
+			return false;
+		} else if(val.length == 2){
+			val += '/';
+		}
+
+		if(val.indexOf('/') === -1 && val.length >= 2){
+			val = val.slice(0,2) + "/" + val.slice(2, val.length);
+		}
+		// camt be longer than 5 - including the '/'
+		val = (val.length >= 5) ? val.slice(0,5) : val;
+		$(this).val(val);
+	}
+
+	var validateCSV = function(e){
+		var val = $(this).val();
+			val = val.replace(/[^0-9]/g, ''); // removes all text values
+			val = (val.length > 3) ? val.slice(0,3) : val;
+		$(this).val(val); // replace regardless of rest of logic (remove letters etc)
+	}
+
+	var validateCoupon = function(e){
+		var coupon = $(this).val().replace(/[^a-zA-Z0-9]/gi,'');
+
+		if(coupon.length === COUPON_LENGTH){
+			var address = API_URL + 'coupon/' + coupon;
+			if(self.fetch){
+				fetch(address).then(function(data){
+					return data.json();
+				}).then(function(data){
+					orderForm.coupon = data;
+					refreshUI();
+				});
+			} else {
+				// ajax fallback
+				$.ajax({
+					url: address,
+					method: 'GET',
+					success: function(data){
+						orderForm.coupon = JSON.parse(data);
+						refreshUI();
+					},
+					error: function(err){
+						console.log(err);
+					}
+				});
+			}
+		} else {
+			orderForm.coupon = '';
+			$('.coupon-applied').html('');
+			refreshUI();
+		}
+	}
+
+	var placeOrder = function(){
+		var address = API_URL + 'order/';
+		var method = 'POST';
+
+		//if(validateOrder){
+			$.ajax({
+				url: address,
+				method: method,
+				data: JSON.stringify(orderForm),
+				contentType: 'application/json', 
+				success: function(data){
+					// console.log(data);
+				},
+				error: function(err){
+					console.log(err);
+				}
+			});
+		//}		
+	}
+
+	var getAllOrders = function(){
+
+		var address = API_URL + 'orders/';
+
+		$.ajax({
+			url: address,
+			method: 'GET',
+			contentType: 'application/json',
+			success: function(data){
+				console.log(data);
+			},
+			error: function(err){
+				console.log(err);
+			}
+		});
+	}
+
 	// listeners
 	$(document).ready(function(){
 		$('.review-order-btn, .open-order').on('click', showReviewModal);
@@ -390,9 +510,14 @@ var orderAPI = (function(){
 		       closeModal();
 		    }
 		});
-		$('input[name="payment-method"]').on('change', updatePaymentMethod);
-		$('input[name="order-for"]').on('change', updateDeliveryMethod);
+		
+		$('.place-order-btn').on('click', placeOrder);
+		$('input[name="payment-method"],input[name="payment-method-desktop"]').on('change', updatePaymentMethod);
+		$('input[name="order-for"],input[name="order-for-desktop"]').on('change', updateDeliveryMethod);
 		$('.order-collect-at').on('change', updateDeliveryTime);
+		$('.exp-input').on('keyup', validateExpiryDate);
+		$('.csv-input').on('keyup', validateCSV);
+		$('.coupon-code').on('keyup', validateCoupon);
 		$('button[data-modal-page]').on('click', initModalNavigation);
 		$('.modal-input-text').on('keyup', validateFormInput);
 
@@ -402,6 +527,7 @@ var orderAPI = (function(){
 	return {
 		getOrderForm: function(){
 			console.log(orderForm);
-		}
+		},
+		getAllOrders: getAllOrders
 	}
 })();

@@ -1,0 +1,42 @@
+
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	overflow-y: scroll;
+	font-family: 'Helvetica', arial, 'Roboto', 'Open Sans';
+	font-size: 14px;
+	width: 700px;
+	margin: 0 auto;
+	padding: 35px;
+	background: #dedede;
+}
+
+header{
+	border-bottom: 1px solid #666;
+}
+
+.loading-spinner {
+	margin-top: 35px;
+    text-align: center;
+    font-size: 27px;
+    color: #666;
+    font-variant: small-caps;
+}
+
+.loading-spinner .fa {
+    font-size: 15px;
+    position: relative;
+    top: -3px;
+}
+
+.order-row {
+    display: flex;
+}
+
+.order-col{
+	flex: 1;
+	text-align: center;
+}
