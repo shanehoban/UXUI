@@ -99,7 +99,7 @@ var orderAPI = (function(){
 		if(index>=0){
 			if(ORDER[index].qty<=Math.abs(item.qty)){
 				console.log("remove");
-				ORDER.splice(index,index+1);
+				ORDER.remove(index);
 				orderCounter--;
 			}
 			else {

@@ -13,9 +13,9 @@ var paths = {
 };
 paths.js = paths.webroot + "js/**/*.js";
 paths.minJs = paths.webroot + "js/**/*.min.js";
-paths.css = paths.webroot + "css/**/*.css";
-paths.less = paths.webroot + "css/less/**/*.less";
-paths.minCss = paths.webroot + "css/**/*.min.css";
+paths.css = paths.webroot + "styles/css/**/*.css";
+paths.less = paths.webroot + "styles/less/**/*.less";
+paths.minCss = paths.webroot + "styles/css/**/*.min.css";
 paths.concatJsDest = paths.webroot + "site/site.min.js";
 paths.concatCssDest = paths.webroot + "site/site.min.css";
 
@@ -60,4 +60,6 @@ gulp.task('test-karma', function (done) {
   }, done).start();;
 });
 
-gulp.task("build",["clean","minify","test-karma"]);
+gulp.task("create", ["clean", "minify"]);
+
+gulp.task("build",["create","test-karma"]);
