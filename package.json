@@ -1,0 +1,18 @@
+{
+	"version": "1.0.0",
+	"name": "ThaiGarden",
+	"private": true,
+	"devDependencies": {
+		"gulp": "3.8.11",
+		"gulp-concat": "2.5.2",
+		"gulp-cssmin": "0.1.7",
+		"gulp-less": "3.1.0",
+		"gulp-uglify": "1.2.0",
+		"rimraf": "2.2.8",
+		"karma": "0.13.22",
+		"karma-jasmine": "1.0.2",
+		"karma-coverage": "1.0.0",
+		"karma-phantomjs-launcher": "1.0.0",
+		"phantomjs-prebuilt": "2.1.7"
+	}
+}

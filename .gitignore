@@ -1,0 +1,5 @@
+**/css/**
+node_modules
+node_modules/**
+site/**
+font_awesome/**
