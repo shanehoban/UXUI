@@ -10,20 +10,42 @@ describe('Order', function(){
 		}
 
 	};
+
 	beforeEach(function(){
-		ORDER = [];
-	});
+		orderAPI.clearOrder();
+	})
 
 	it('Should add item to order', function(){
-		updateOrder(item);
-		expect(getOrderTotal()).toEqual('11.00');
-		expect(ORDER[0].Title).toEqual('Example Item');
+		orderAPI.updateOrder(item);
+		expect(orderAPI.getOrderTotal()).toEqual('11.00');
+		expect(orderAPI.getOrder()[0].Title).toEqual('Example Item');
+		expect(orderAPI.getOrder().length).toEqual(1);
+
 	});
 
 	it('Should add multiple item prices to make total', function(){
-		updateOrder(item);
-		updateOrder(item);
-		updateOrder(item);
-		expect(getOrderTotal()).toEqual('33.00');
+		orderAPI.updateOrder(item);
+		orderAPI.updateOrder(item);
+		orderAPI.updateOrder(item);
+		expect(orderAPI.getOrderTotal()).toEqual('33.00');
+	});
+
+	it('Should remove item from order', function(){
+		orderAPI.updateOrder(item);
+		orderAPI.updateOrder(item);
+		orderAPI.updateOrder(item);
+		item.qty = -1;
+		orderAPI.updateOrder(item);
+		expect(orderAPI.getOrderTotal()).toEqual('22.00');
+		orderAPI.updateOrder(item);
+		orderAPI.updateOrder(item);
+		expect(orderAPI.getOrderTotal()).toEqual('0.00');
+		expect(orderAPI.getOrder()).toEqual([]);
+	});
+
+	it('Shouldnt update the order if the item has 0 quantity', function(){
+		item.qty = 0;
+		orderAPI.updateOrder(item);
+		expect(orderAPI.getOrder()).toEqual([]);
 	});
 });
