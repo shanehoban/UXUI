@@ -9,7 +9,7 @@ module.exports = function(config) {
     ],
     exclude: [
     ],
-    preprocessors: {"js/**/*.js": ['coverage']},
+    preprocessors: {"js/**/!(jquery).js": ['coverage']},
     reporters: ['progress', 'coverage'],
     coverageReporter: {
       type: "html",
