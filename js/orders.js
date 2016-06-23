@@ -141,8 +141,7 @@ var orderAPI = (function(){
 	}
 
 	var showSubListMenu = function(e){
-		var me = $(this);
-
+		
 		if($(this).hasClass('shown')){
 			return false
 		}
@@ -150,11 +149,10 @@ var orderAPI = (function(){
 		$('.order-list-item').removeClass('shown').find('.fa').removeClass('fa-chevron-down').addClass('fa-pencil');
 		$(this).addClass('shown');
 		$('.order-list-sub-menu').hide(1);
-		$(this).find('.order-list-sub-menu').stop().slideDown('fast', function(){
-			me.find('.fa').toggleClass('fa-pencil');
-			me.find('.fa').toggleClass('fa-chevron-down');
-		});
+		$(this).find('.order-list-sub-menu').css({'display': 'flex'});
 		
+		$(this).find('.fa').toggleClass('fa-pencil');
+		$(this).find('.fa').toggleClass('fa-chevron-down');
 	}
 
 	$(document).on("updateOrder", function(e, eventData){
@@ -168,11 +166,12 @@ var orderAPI = (function(){
 	});
 
 
-	var addSubListMenu = function(HTML, counterId){
+	var addSubListMenu = function(HTML, item){
 		HTML += '<div class="order-list-sub-menu">';
-		HTML += '<button class="order-list-sub-btn list-sub-btn list-sub-btn-update" data-method="minus" data-item-id="' + counterId + '">-</button>';
-		HTML += '<button class="order-list-sub-btn list-sub-btn list-sub-btn-update" data-method="add" data-item-id="' + counterId + '">+</button>';
-		HTML += '<button class="order-list-sub-btn list-sub-btn list-sub-btn-delete" data-method="delete" data-item-id="' + counterId + '"><i class="fa fa-trash"></i></button>';
+		HTML += '<button class="order-list-sub-btn list-sub-btn list-sub-btn-update" data-method="minus" data-item-id="' + item.orderCounter + '">-</button>';
+		HTML += '<span class="order-list-sub-qty">' + item.qty + '</span>';
+		HTML += '<button class="order-list-sub-btn list-sub-btn list-sub-btn-update" data-method="add" data-item-id="' + item.orderCounter + '">+</button>';
+		HTML += '<button class="order-list-sub-btn list-sub-btn list-sub-btn-delete" data-method="delete" data-item-id="' + item.orderCounter + '"><i class="fa fa-trash"></i></button>';
 		HTML += '</div>';
 		return HTML;
 	}
@@ -219,7 +218,7 @@ var orderAPI = (function(){
 			orderListHTML += '<div class="order-list-extra capitalize">w/ ' + (item.extra.name.replace(/-/g, ' ')) + ' </div>';
 			orderListHTML += '<div class="order-list-qty"> x' + (item.qty || 1) + '</div>';
 			orderListHTML += '<div class="order-list-price">&euro;' + price.toFixed(2) + '</div>';
-			orderListHTML = addSubListMenu(orderListHTML, item.orderCounter);
+			orderListHTML = addSubListMenu(orderListHTML, item);
 			orderListHTML += '</li>';
 		}
 		return orderListHTML;
@@ -355,10 +354,12 @@ var orderAPI = (function(){
 		updateOrderPanel();
 		showReviewModal();
 		// and again show the sub-dropdown menu
-		$('.order-list-item[data-item-id="'+counterId+'"]').find('.order-list-sub-menu').stop().slideDown('fast', function(){
-			$(this).parent().parent().find('.fa').toggleClass('fa-pencil');
-			$(this).parent().parent().find('.fa').toggleClass('fa-chevron-down');
-		});
+		$('.order-list-item[data-item-id="'+counterId+'"]')
+			.find('.order-list-sub-menu')
+			.css({'display': 'flex'})
+			.parent().parent().find('.fa')
+				.toggleClass('fa-pencil')
+				.toggleClass('fa-chevron-down');
 	}
 
 	var deleteOrderFromModal = function(){

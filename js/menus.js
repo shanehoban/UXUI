@@ -105,12 +105,16 @@ var menuAPI = (function(){
 
 
 	var createSubMenuHTML = function(){
+
+		
 		var subMenuHtml = '<div class="item-sub-menu">';
 		subMenuHtml += '<img class="sub-item-img" src="img/dish.png">';
 		subMenuHtml += createExtrasSelectionDivHTML();
-		subMenuHtml += createQuantityDivHTML();
-		subMenuHtml += '<button class="add-to-cart-btn">Add to Cart</button>';
-		subMenuHtml += '<span class="hide-sub-menu-btn">close</span>';
+			subMenuHtml += '<div class="display-flex align-center">';
+			subMenuHtml += createQuantityDivHTML();
+			subMenuHtml += '<button class="add-to-cart-btn">Add to Cart</button>';
+			subMenuHtml += '<span class="hide-sub-menu-btn">close</span>';
+			subMenuHtml += '</div>'; // end flex
 		subMenuHtml += '</div>';
 		return subMenuHtml;
 	};
@@ -135,12 +139,13 @@ var menuAPI = (function(){
 	}
 
 	var createQuantityDivHTML = function(){
-		var qdHtml = '<div class="sub-item-quantity">';
-		qdHtml += '<i class="fa fa-minus qty-btn decrement-quantity"></i>';
-		qdHtml += '<input class="item-order-quantity" value="1" type="number" min="1">';
-		qdHtml += '<i class="fa fa-plus qty-btn increment-quantity"></i>';
-		qdHtml += '</div>';
-		return qdHtml;Z
+		var qdHtml = '';
+			qdHtml += '<div class="sub-item-quantity">';
+			qdHtml += '<i class="fa fa-minus qty-btn decrement-quantity"></i>';
+			qdHtml += '<input class="item-order-quantity" value="1" type="number" min="1">';
+			qdHtml += '<i class="fa fa-plus qty-btn increment-quantity"></i>';
+			qdHtml += '</div>';
+		return qdHtml;
 	}
 
 	var resetQuantity = function(){

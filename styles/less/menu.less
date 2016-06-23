@@ -75,7 +75,7 @@
 	    display: inline-block;
 	    vertical-align: top;
 	    width: 58%;
-	    margin-bottom: 7px;
+	    margin-bottom: 10px;
 	}
 
 	.sub-item-form {
@@ -96,9 +96,8 @@
 	}
 
 	.sub-item-quantity {
-	    display: inline-block;
-	    margin-right: 15px;
-	    margin-top: 7px;
+	    flex: 4;
+	    font-size: 14px;
 	}
 	
 	.extras-price {
@@ -112,7 +111,8 @@
 		text-align: center;
 	    width: 22px;
 	    padding: 3px;
-	    margin: 0 10px;
+	    margin: 0 3px;
+	    border: 0;
 	}
 
 	.qty-btn {
@@ -131,22 +131,16 @@
 
 	.add-to-cart-btn {
 		.transition;
-	    padding: 7px 13px;
-	    vertical-align: text-bottom;
-	    margin-bottom: -3px;
-	    margin-left: -4px;
-	    border-radius: 2px;
-	    border: 0;
-	    font-size: 12px;
-	    background: @blue;
-	    font-family: 'Open Sans';
-	    color: #fff;
-	    text-shadow: -1px 1px 0 #19337d;
-
-	    &:hover{
-	    	background: #24439c;
+	    flex: 5;
+	        border-radius: 2px;
+	        border: 0;
+	        font-size: 12px;
+	        background: #2859e2;
+	        font-family: 'Open Sans';
+	        color: #fff;
+	        text-shadow: -1px 1px 0 #19337d;
+	        padding: 7px 0;
 	    }
-	}
 
 	.hide-sub-menu-btn {
 	    font-size: 10px;
