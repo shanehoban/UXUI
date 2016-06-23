@@ -77,4 +77,14 @@ var locationAPI = (function(){
 	};
 
 	activate();
+
+	return {
+		showLocations: showLocations,
+		hideLocations: hideLocations,
+		getResterauntList: getResterauntList,
+		clearLocations: clearLocations,
+		changeLocation: changeLocation,
+		setLocation: setLocation,
+		populateLocations: populateLocations
+	};
 })();

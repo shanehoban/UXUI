@@ -254,5 +254,40 @@ var menuAPI = (function(){
 	$(document).on("changeLocation", function(e){
 		clearMenu();
 	});
+
+	return {
+		populateMenu: populateMenu,
+		createMenuItemHTML: createMenuItemHTML,
+		createQuantityDivHTML: createQuantityDivHTML,
+		createSubMenuHTML: createSubMenuHTML,
+		createMenuCategoryHTML: createMenuCategoryHTML,
+		createExtrasSelectionDivHTML: createExtrasSelectionDivHTML,
+		createMenuItemPriceHTML: createMenuItemPriceHTML,
+		createMenuItemTitleHTML: createMenuItemTitleHTML,
+		createMenuItemDescriptionHTML: createMenuItemDescriptionHTML,
+		createMenuItemListHTML: createMenuItemListHTML,
+		createExtrasHtml: createExtrasHtml,
+		createMenuCategoryTitleHTML: createMenuCategoryTitleHTML,
+		clearMenu: clearMenu,
+		getCurrentItem: getCurrentItem,
+		getMenu: getMenu,
+		closeSubMenus: closeSubMenus,
+		decrementQuantity: decrementQuantity,
+		incrementQuantity: incrementQuantity,
+		openSubMenu: openSubMenu,
+		setExtraValue: setExtraValue,
+		updateExtra: updateExtra,
+		updateOrder: updateOrder,
+		resetQuantity: resetQuantity,
+		setupMenuListeners: setupMenuListeners,
+		hideSubmenus: hideSubmenus,
+		findMenuItem: findMenuItem,
+		extrasKeys: extrasKeys,
+		extras: extras,
+		labelCount: labelCount,
+		menu: MENU,
+		item: ITEM,
+		selected: selected
+	};
 })();
 
