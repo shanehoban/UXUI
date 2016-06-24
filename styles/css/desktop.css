@@ -97,11 +97,6 @@
     left: 0;
     right: 0;
   }
-  .splash-header,
-  .menu-list,
-  .desktop-column {
-    margin-top: 60px;
-  }
   .menu-list {
     width: 65%;
     display: inline-block;

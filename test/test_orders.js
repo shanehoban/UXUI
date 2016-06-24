@@ -52,5 +52,6 @@ describe('Order', function(){
 	it('Should update the ui after order addition', function(){
 		orderAPI.updateOrder(item);
 		orderAPI.refreshUI();
+		expect(orderAPI.getOrder()).toEqual([]);
 	});
 });
