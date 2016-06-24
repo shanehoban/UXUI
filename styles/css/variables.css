@@ -1,1 +1,70 @@
-.menu-header{font-family:Helvetica;font-size:24px;font-weight:700;color:#406840;padding-bottom:10px;border-bottom:1px solid}.transition{-webkit-transition:all .2s linear;-moz-transition:all .2s linear;-o-transition:all .2s linear;transition:all .2s linear}.display-flex{display:flex}.align-center{align-items:center}.flex-1{flex:1}.capitalize{text-transform:capitalize}.fake-link{font-size:10px;color:#1c49ca;text-decoration:underline;cursor:pointer}.inline-block{display:inline-block!important}.hidden{display:none}.btn{-webkit-transition:all .2s linear;-moz-transition:all .2s linear;-o-transition:all .2s linear;transition:all .2s linear;height:100%;cursor:pointer;border:0;outline:0;font-size:17px;font-family:Roboto}.btn:hover{-webkit-transition:all .2s linear;-moz-transition:all .2s linear;-o-transition:all .2s linear;transition:all .2s linear}.green-btn{background:#109410;color:#fff;text-shadow:-1px 1px 0 #055f05;font-weight:700}.green-btn:hover{background:#068806;border-color:#186d18}.green-btn .fa{font-size:.85em;margin-left:3px}
+.menu-header {
+  font-family: 'Helvetica';
+  font-size: 24px;
+  font-weight: bold;
+  color: #406840;
+  padding-bottom: 10px;
+  border-bottom: 1px solid;
+}
+.transition {
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+.display-flex {
+  display: flex;
+}
+.align-center {
+  align-items: center;
+}
+.flex-1 {
+  flex: 1;
+}
+.capitalize {
+  text-transform: capitalize;
+}
+.fake-link {
+  font-size: 10px;
+  color: #1c49ca;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.inline-block {
+  display: inline-block !important;
+}
+.hidden {
+  display: none;
+}
+.btn {
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+  height: 100%;
+  cursor: pointer;
+  border: 0;
+  outline: 0;
+  font-size: 17px;
+  font-family: 'Roboto';
+}
+.btn:hover {
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+.green-btn {
+  background: #109410;
+  color: white;
+  text-shadow: -1px 1px 0 #055f05;
+  font-weight: bold;
+}
+.green-btn:hover {
+  background: #068806;
+  border-color: #186d18;
+}
+.green-btn .fa {
+  font-size: 0.85em;
+  margin-left: 3px;
+}

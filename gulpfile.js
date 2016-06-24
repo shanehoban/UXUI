@@ -41,7 +41,7 @@ gulp.task("min:js", function () {
 gulp.task('less', function () {
   return gulp.src(paths.less)
     .pipe(less())
-    .pipe(gulp.dest('./css'));
+    .pipe(gulp.dest('./styles/css'));
 });
 
 gulp.task("min:css", function () {
