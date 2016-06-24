@@ -1,18 +1,18 @@
 describe('Order', function(){
-	var item = {
-		Title: "Example Item",
-		Price: 10.5,
-		qty: 1,
-		Id: 123,
-		extra: {
-			name: "sauce",
-			price: 0.5
-		}
-
-	};
+	var item;
 
 	beforeEach(function(){
 		orderAPI.clearOrder();
+		item = {
+			Title: "Example Item",
+			Price: 10.5,
+			qty: 1,
+			Id: 123,
+			extra: {
+				name: "sauce",
+				price: 0.5
+			}
+		};
 	})
 
 	it('Should add item to order', function(){
@@ -47,5 +47,10 @@ describe('Order', function(){
 		item.qty = 0;
 		orderAPI.updateOrder(item);
 		expect(orderAPI.getOrder()).toEqual([]);
+	});
+
+	it('Should update the ui after order addition', function(){
+		orderAPI.updateOrder(item);
+		orderAPI.refreshUI();
 	});
 });
