@@ -642,6 +642,7 @@ var orderAPI = (function(){
 		changeOrderFromModal: changeOrderFromModal,
 		updateOrderDisplay: updateOrderDisplay,
 		deleteOrderFromModal: deleteOrderFromModal,
-		closeModal: closeModal
+		closeModal: closeModal,
+		refreshUI: refreshUI
 	}
 })();
