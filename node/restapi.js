@@ -5,7 +5,8 @@ var fs = require("fs");
 var app = express();
 
 var coupons = {
-	COYBIG20: 20
+	COYBIG20: 20,
+	TESTCOUP: 10
 };
 
 var ORDERS = [];

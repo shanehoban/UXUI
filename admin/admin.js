@@ -31,18 +31,30 @@ var continuePolling = true;
 		for(var i = 0; i < orderKeys.length; i++){
 			var orderKey = orderKeys[i];
 			var value = order[orderKey];
-				if(orderKey === 'time'){
+				if(orderKey === 'time' || orderKey === 'orderedAt'){
 					var date =  new Date(+value);
 					value = formatOrderTime(date.getTime());
 					value += ' ' + date.getDate() + '/' + (+date.getMonth()+1) + '/' + date.getFullYear().toString().slice(2,4);
 				}
 				
-				html += '<div class="order-col ' + orderKey + '">';
+				html += '<div class="table-col order-col ' + orderKey + '">';
 				html += value;
 				html += '</div>';
 		}
 		return html;
-	}
+	};
+
+	var addTitleRow = function(html){
+		html += '<div class="table-row title-row">';
+			for(var i = 0; i < orderKeys.length; i++){
+				var orderKey = orderKeys[i];
+				html += '<div class="table-col title-col ' + orderKey + '">';
+				html += orderKey;	
+				html += '</div>';
+			}
+		html += '</div>';
+		return html;
+	};
 	
 	var displayOrders = function(orders){
 		console.log(orders);
@@ -50,9 +62,11 @@ var continuePolling = true;
 
 		orderKeys = Object.keys(orders[0]);
 
+		ordersHTML = addTitleRow(ordersHTML);
+
 		for(var i = 0; i<orders.length; i++){
 			var order = orders[i];
-			ordersHTML += '<div class="order-row">';
+			ordersHTML += '<div class="table-row order-row">';
 				ordersHTML = wrapOrderElement(order, ordersHTML);
 			ordersHTML += '</div>';
 		}

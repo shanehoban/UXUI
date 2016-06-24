@@ -42,15 +42,33 @@ var orderAPI = (function(){
 		}
 	};
 
+	var resetInputs = function(){
+		$('.order-form-block').find('input[type="text"],input[type="number"]').val('');
+	}
+
 	var clearOrder = function(){
 		ORDER = [];
+		var orderKeys = Object.keys(orderForm);
+		for(var i = 0; i<orderKeys.length; i++){
+			var k = orderKeys[i];
+			orderForm[k] = '';
+		}
+		orderForm.paymentMethod = 'cc';
+		orderForm.orderFor = 'collection';
+		orderForm.orderTotal = 0;
+		resetInputs();
+		refreshUI();
 	}
 
 	var updateOrderPanel = function(){
 
 		if(ORDER.length <= 0){
+			$('.please-select-item').show();
+			$('.desktop-place-order-block, .desktop-form').hide();
 			hideOrderPanel();
 		} else {
+			$('.please-select-item').hide();
+			$('.desktop-place-order-block, .desktop-form').show();
 			showOrderPanel();
 		}
 	}
@@ -85,7 +103,6 @@ var orderAPI = (function(){
 		ITEM.orderCounter = orderCounter; // unique identifier for object in order
 		if(ITEM.qty>0){
 			addToOrder(JSON.parse(JSON.stringify(ITEM)));
-			// ORDER.push(JSON.parse(JSON.stringify(ITEM)));
 		} else {
 			console.log('Removing from order');
 			removeFromOrder(ITEM);
@@ -461,24 +478,74 @@ var orderAPI = (function(){
 		}
 	}
 
+	var validateOrder = function(){
+		$('input').removeClass('invalid-input');
+		var isValid = true;
+		
+		if(orderForm.paymentMethod !== 'cc' && orderForm.paymentMethod !== 'cash'){
+			console.log('error: payment');
+			isValid = false;
+		}
+
+		if(orderForm.orderFor === 'delivery' && orderForm.address1.length <= 0){
+			console.log('error: address');
+			isValid = false;
+			$('.address-line-1').addClass('invalid-input');
+		}
+
+		if(orderForm.name.length <= 0){
+			console.log('error: name');
+			isValid = false;
+			$('.user-name').addClass('invalid-input');
+		}
+		if(orderForm.mobile.length <= 0){
+			console.log('error: mobile');
+			isValid = false;
+			$('.mobile-number').addClass('invalid-input');
+		}
+
+		if(orderForm.paymentMethod === 'cc'){
+			// Taken from https://en.wikipedia.org/wiki/Payment_card_number
+			if(orderForm.ccno.length < 12 || orderForm.ccno.length > 19){
+				console.log('error: ccno');
+				isValid = false;
+				$('.cc-no').addClass('invalid-input');
+			}
+
+			if(orderForm.exp.length !== 5){
+				console.log('error: expdate');
+				isValid = false;
+				$('.exp-input').addClass('invalid-input');
+			}
+			if(orderForm.csv.length !== 3){
+				console.log('error: csv');
+				isValid = false;
+				$('.csv-input').addClass('invalid-input');
+			}
+		}
+
+
+	return isValid;
+	}
+
 	var placeOrder = function(){
 		var address = API_URL + 'order/';
 		var method = 'POST';
 
-		//if(validateOrder){
+		if(validateOrder()){
 			$.ajax({
 				url: address,
 				method: method,
 				data: JSON.stringify(orderForm),
 				contentType: 'application/json', 
 				success: function(data){
-					// console.log(data);
+					$('.order-placed').fadeIn();
 				},
 				error: function(err){
 					console.log(err);
 				}
 			});
-		//}		
+		}		
 	}
 
 	var getAllOrders = function(){
@@ -498,6 +565,11 @@ var orderAPI = (function(){
 		});
 	}
 
+	var updateAddress = function(){
+		var key = $(this).attr('data-order-form');
+		orderForm[key] = $(this).val();
+	}
+
 	// listeners
 	$(document).ready(function(){
 		$('.review-order-btn, .open-order').on('click', showReviewModal);
@@ -510,6 +582,10 @@ var orderAPI = (function(){
 		       closeModal();
 		    }
 		});
+		$('.order-placed button').on('click', function(){
+			clearOrder();
+			$('.order-placed').fadeOut();
+		});
 		
 		$('.place-order-btn').on('click', placeOrder);
 		$('input[name="payment-method"],input[name="payment-method-desktop"]').on('change', updatePaymentMethod);
@@ -518,6 +594,7 @@ var orderAPI = (function(){
 		$('.exp-input').on('keyup', validateExpiryDate);
 		$('.csv-input').on('keyup', validateCSV);
 		$('.coupon-code').on('keyup', validateCoupon);
+		$('.address-line-1, .address-line-2').on('keyup', updateAddress);
 		$('button[data-modal-page]').on('click', initModalNavigation);
 		$('.modal-input-text').on('keyup', validateFormInput);
 

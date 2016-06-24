@@ -6,6 +6,7 @@
 		.desktop-column {
 		    float: right;
 		    width: 34.999%;
+		    position: relative;
 		}
 
 		.desktop-column:not(.hidden){
@@ -100,6 +101,48 @@
 		    margin-right: 0;
 		}
 
+		.order-placed {
+			display: none;
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    right: 0;
+		    bottom: 0;
+		    background: rgb(16, 148, 16);
+		    margin: 15px 0;
+		    border-radius: 6px;
+		    text-align: center;
+		    color: white;
+		    font-size: 27px;
+		    text-shadow: -1px 1px 0 #055f05;
+		    padding-top: 50%;
+
+		    & small{
+		    	font-size: 20px;
+		    	font-variant: small-caps;
+		    	& .fa{
+		   			font-size: 14px;
+		    	}
+		    }
+
+		    & button {
+		    	.transition;
+			    width: 100%;
+			    padding: 35px;
+			    border: 0;
+			    background: rgba(0, 0, 0, 0.3);
+			    font-size: 19px;
+			    margin-top: 35px;
+			    color: #109410;
+			    text-shadow: -1px 1px 0 #064c06;
+
+			    &:hover{
+			    	.transition;
+			    	background: rgba(0, 0, 0, 0.44);
+			    }
+			}
+		}
+
 		.coupon-code{
 			margin: 0;
 		}
@@ -111,8 +154,31 @@
 		    font-family: arial;
 		}
 
+		.order-total-modal {
+		    border-top: 2px dotted rgba(0,0,0,.8);
+		    margin-top: 10px;
+		}
+
 		.desktop-order-total{
 			display: none;
+		}
+
+		.desktop-place-order-block,
+		.desktop-form{
+			display: none;
+		}
+
+		.please-select-item {
+		    margin: 35px 0 25px 0;
+		    font-size: 20px;
+		    color: rgb(120, 156, 81);
+		    text-align: center;
+
+		    & .fa{
+		    	font-size: 16px;
+		    	margin-right: 7px;
+		    	margin-left: -7px;
+		    }
 		}
 	
 		.desktop-place-order {

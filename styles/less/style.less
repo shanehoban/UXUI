@@ -165,3 +165,47 @@
 	}
 
 
+	.invalid-input{
+		border: 1px solid red !important;
+	}
+
+	.order-placed {
+		display: none;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    right: 0;
+	    bottom: 0;
+	    background: rgb(16, 148, 16);
+	    text-align: center;
+	    color: white;
+	    border-right: 4px solid #055f05;
+	    font-size: 27px;
+	    text-shadow: -1px 1px 0 #055f05;
+	    padding-top: 50%;
+
+	    & small{
+	    	font-size: 20px;
+	    	font-variant: small-caps;
+	    	& .fa{
+	   			font-size: 14px;
+	    	}
+	    }
+
+	    & button {
+	    	.transition;
+		    width: 100%;
+		    padding: 35px;
+		    border: 0;
+		    background: rgba(0, 0, 0, 0.3);
+		    font-size: 19px;
+		    margin-top: 35px;
+		    color: #109410;
+		    text-shadow: -1px 1px 0 #064c06;
+
+		    &:hover{
+		    	.transition;
+		    	background: rgba(0, 0, 0, 0.44);
+		    }
+		}
+	}
