@@ -533,10 +533,13 @@ var orderAPI = (function(){
 		var method = 'POST';
 
 		if(validateOrder()){
+			var finalOrder = {};
+				finalOrder.orderForm = orderForm;
+				finalOrder.order = ORDER;
 			$.ajax({
 				url: address,
 				method: method,
-				data: JSON.stringify(orderForm),
+				data: JSON.stringify(finalOrder),
 				contentType: 'application/json', 
 				success: function(data){
 					$('.order-placed').fadeIn();
